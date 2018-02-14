@@ -2,7 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use View;
 use Illuminate\Http\Request;
 
 class con_register extends Controller {
@@ -14,7 +14,7 @@ class con_register extends Controller {
 	 */
 	public function index()
 	{
-		//
+		return View('register');
 	}
 
 	/**

@@ -1,7 +1,7 @@
 <!-- ./wrapper -->
 
 <!-- jQuery 3.1.1 -->
-<script src="plugins/jQuery/jquery-3.1.1.min.js"></script>
+<script src="/gabriel/local/resources/views/plugins/jQuery/jquery-3.1.1.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -37,3 +37,6 @@
 <script src="/gabriel/local/resources/views/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/gabriel/local/resources/views/dist/js/demo.js"></script>
+<script src="https://rawgithub.com/justindomingue/ohSnap/master/ohsnap.js"></script>
+<script type="text/javascript" src="https://sweetalert.js.org/assets/sweetalert/sweetalert.min.js">	
+</script>

@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Registro</title>
   <?php include('local/resources/views/includes/referencias_top.html');?>
+   
 </head>
 <body class="hold-transition register-page" style="background-image: url('https://www.ibm.com/blogs/business-analytics/wp-content/uploads/2017/02/data-analytics-too-much-data.jpg');">
 <div class="register-box">
@@ -15,7 +16,7 @@
   <div class="register-box-body">
     <p class="login-box-msg">Complete la información solicitada.</p>
 
-    <form action="../../index.html" method="post">
+    <form action="" method="post">
       <div class="form-group has-feedback">
         <input type="text" class="form-control" placeholder="Nombre">
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -23,6 +24,11 @@
       <div class="form-group has-feedback">
         <input type="email" class="form-control" placeholder="Correo">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <select class="form-control" s>
+          <option>País</option>
+        </select> 
       </div>
        <div class="form-group has-feedback">
         <input type="date" class="form-control" placeholder="Fecha de nacimiento"  >
@@ -41,6 +47,9 @@
         <!-- /.col -->
         <div class="col-xs-12 text-center">
           <button type="submit" class="btn btn-primary btn-block btn-flat">Registrar</button>
+        </div>
+        <div class="col-xs-12" style="padding-top: 10px;">    
+          <a href="iniciar" class="" style="margin-top: 15px;">Iniciar sesión</a>
         </div>
         <!-- /.col -->
       </div>

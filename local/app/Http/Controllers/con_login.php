@@ -24,20 +24,21 @@ class con_login extends Controller {
 	 */
 	public function create( Request $request)
 	{
-		$datos="";
-		 if(!isset($_POST['correo'])){return Redirect('reguser?error=correo');}
-		 if(!isset($_POST['pass'])){return Redirect('reguser?error=pass');}
+		 
+		 $datos="";
+		 if($_POST['correo']==""){return Redirect('iniciar?info=correo');exit();}
+		 if($_POST['pass']==""){return Redirect('iniciar?info=pass');exit();}
 		 $sql="
 		 SELECT idUsuario, login, email, clave,COUNT(idUsuario) AS contador 
 		 FROM usuario 
-		 WHERE email = '".$_POST['correo']."' OR  login = '".$_POST['correo']."' AND clave ='".md5($_POST['pass'])."'";
+		 WHERE (email = '".$_POST['correo']."' OR  login = '".$_POST['correo']."') AND clave ='".hash('sha256', $_POST['pass'])."'";
 		 
 		 	try {
                  $datos=DB::select($sql);
             } catch (QueryException $e) {
             	return Redirect('error');
-                //dd("Error: ".$e->getMessage());
             }
+
           if($datos[0]->contador)
           {
           	$request->session()->set('correo', $datos[0]->email);
@@ -45,17 +46,21 @@ class con_login extends Controller {
             $request->session()->set('id', $datos[0]->idUsuario);
             return Redirect('inicio');
           }
+
           else
           {
-          	 return Redirect('inicio?v=false');
+          	 return Redirect('iniciar?info=false');
           }
 	}
+
 
 	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
+
+
 	public function salir(Request $request)
 	{
 		$request->session()->forget('correo');
@@ -64,12 +69,14 @@ class con_login extends Controller {
         return redirect('/');
 	}
 
+
 	/**
 	 * Display the specified resource.
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
+
 	public function show($id)
 	{
 		//
