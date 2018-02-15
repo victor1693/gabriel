@@ -16,7 +16,7 @@
   <div class="register-box-body">
     <p class="login-box-msg">Complete la información solicitada.</p>
 
-    <form action="" method="post">
+    <form action="registro" method="post" id="formulario">
     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
       <div class="form-group has-feedback">
         <input name="nombre" id="nombre" type="text" class="form-control" placeholder="Usuario">
@@ -34,22 +34,22 @@
         <input name="correo" id="correo" type="email" class="form-control" placeholder="Correo">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
-      <div id="pais" class="form-group has-feedback">
+      <div class="form-group has-feedback">
         <select id="pais" name="pais" class="form-control select2" style="padding-bottom: 10px;">
           <option value="">País</option>
           <?php 
             foreach ($datos as $key ) {
-             echo "<option value='".$key->idPais."'>".$key->nombrePais."</option>";
+             echo "<option value='".$key->iso."'>".$key->nombrePais."</option>";
             }
           ?>
         </select> 
       </div>
        <div class="form-group has-feedback">
-        <input id="fecha" type="date" class="form-control" placeholder="Fecha de nacimiento"  >
+        <input name="fecha" id="fecha" type="date" class="form-control" placeholder="Fecha de nacimiento"  >
         <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
       </div>
-     <div id="sexo" class="form-group has-feedback">
-        <select id="sexo" class="form-control" s>
+     <div  class="form-group has-feedback">
+        <select name="sexo" id="sexo" class="form-control" s>
           <option value="">Sexo</option>
           <option value="F">Femenino</option>
           <option value="M">Masculino</option>
@@ -79,7 +79,7 @@
 <?php include('local/resources/views/includes/referencias_down.php');?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
  <script type="text/javascript"> 
-
+ 
  $(".select2").select2();
 
  function validar_formulario()
@@ -93,10 +93,28 @@
     }
     else if($("#correo").val()==""){ohSnap('Debe colocar su correo.', {color: 'orange '});$('#correo').focus();}
     else if($("#pais").val()==""){ohSnap('Debe seleccionar un país.', {color: 'orange '});$('#pais').focus();}
+    else if($("#fecha").val()==""){ohSnap('Debe seleccionar una fecha.', {color: 'orange '});$('#fecha').focus();}
     else if($("#sexo").val()==""){ohSnap('Debe indicar su sexo.', {color: 'orange '});$('#sexo').focus();}
     else if(!$("#politicas").is(':checked')){ohSnap('Debe aceptar las politicas.', {color: 'orange '});}
-    //else{$("#formulario").submit();}
+    else{$("#formulario").submit();}
  } 
  </script>
+ <?php
+ if(isset($_GET["info"]))
+  {
+    if($_GET["info"]=="nombre") echo "<script>ohSnap('Debe colorcar su nombre de usuario.', {color: 'orange '});$('#nombre').focus();</script>";
+    else if($_GET["info"]=="correo") echo "<script>ohSnap('Debe colocar su correo.', {color: 'orange '});$('#correo').focus();</script>";
+    else if($_GET["info"]=="pais") echo "<script>ohSnap('Debe seleccionar un pais', {color: 'red'});$('#pais').focus();</script>";
+    else if($_GET["info"]=="clave1") echo "<script>ohSnap('Debe colocar una clave.', {color: 'red'});$('#clave1').focus();</script>";
+    else if($_GET["info"]=="clave2") echo "<script>ohSnap('Debe repetir su clave.', {color: 'red'});$('#clave2').focus();</script>";
+    else if($_GET["info"]=="claves") echo "<script>ohSnap('Las claves deben ser iguales', {color: 'red'});$('#clave1').focus();</script>";
+    else if($_GET["info"]=="sexo") echo "<script>ohSnap('Debe indicar un sexo', {color: 'red'});$('#sexo').focus();</script>";
+    else if($_GET["info"]=="fecha") echo "<script>ohSnap('Debe indicar un sexo', {color: 'red'});$('#fecha').focus();</script>";
+    else if($_GET["info"]=="politicas") echo "<script>ohSnap('Debe aceptar las politicas', {color: 'red'});$('#politicas').focus();</script>";
+     else if($_GET["info"]=="true") {echo '<script>swal("Atención!", "Se ha enviado un correo para la activación de su cuenta.", "info");
+     </script>';}
+
+  }  
+ ?>
 </body>
 </html>
