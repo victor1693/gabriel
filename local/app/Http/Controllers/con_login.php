@@ -46,7 +46,6 @@ class con_login extends Controller {
             $request->session()->set('id', $datos[0]->idUsuario);
             return Redirect('inicio');
           }
-
           else
           {
           	 return Redirect('iniciar?info=false');

@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use View;
 use Illuminate\Http\Request;
-
+use DB;
 class con_register extends Controller {
 
 	/**
@@ -14,7 +14,16 @@ class con_register extends Controller {
 	 */
 	public function index()
 	{
-		return View('register');
+
+		$sql="SELECT * FROM pais";
+			try {
+                 $datos=DB::select($sql);  
+                 $vista=View::make('register');
+                 $vista->datos=$datos;
+                 return $vista;
+            } catch (QueryException $e) {
+            	return Redirect('error'); 
+            } 
 	}
 
 	/**
@@ -24,7 +33,7 @@ class con_register extends Controller {
 	 */
 	public function create()
 	{
-		//
+		
 	}
 
 	/**

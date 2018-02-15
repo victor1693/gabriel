@@ -9,7 +9,7 @@
 <body class="hold-transition login-page" style="background-image: url('https://www.ibm.com/blogs/business-analytics/wp-content/uploads/2017/02/data-analytics-too-much-data.jpg');">
 <div class="login-box">
    <div class="register-logo">
-    <a href="../../index2.html"><b>Opinion</b>App</a>
+    <a href="iniciar"><b>Opinion</b>App</a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
