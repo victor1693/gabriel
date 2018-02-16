@@ -58,7 +58,7 @@
       <div class="row">         
        <div class="col-xs-12" style="padding-top: 0px;"> 
           <input name="politicas" type="checkbox" class="form-check-input" id="politicas" style="margin-top: -30px;margin-bottom: 15px;">
-          <span style="margin-top: -10px;">Acepto las <a href="#">politicas de opinionApp</a></span> 
+          <span style="margin-top: -10px;">Acepto las <a href="terminos">politicas de opinionApp</a></span> 
        </div>
         <div class="col-xs-12 text-center">
           <a onClick="validar_formulario()" class="btn btn-primary btn-block btn-flat">Registrar</a>
@@ -86,6 +86,7 @@
  {
     if($("#nombre").val()==""){ohSnap('Debe colocar su nombre de usuario.', {color: 'orange '});$('#nombre').focus();}
     else if($("#clave1").val()==""){ohSnap('Debe colocar su clave.', {color: 'orange '});$('#clave1').focus();}
+    else if($("#clave1").val().length < 7){ohSnap('La clave debe ser mayor o igual a 6 caracteres.', {color: 'orange '});$('#clave1').focus();}
     else if($("#clave2").val()==""){ohSnap('Repita su clave nuevamente.', {color: 'orange '});$('#clave2').focus();}    
     else if($("#clave2").val()!=$("#clave1").val())
     {
@@ -106,6 +107,10 @@
     else if($_GET["info"]=="correo") echo "<script>ohSnap('Debe colocar su correo.', {color: 'orange '});$('#correo').focus();</script>";
     else if($_GET["info"]=="pais") echo "<script>ohSnap('Debe seleccionar un pais', {color: 'red'});$('#pais').focus();</script>";
     else if($_GET["info"]=="clave1") echo "<script>ohSnap('Debe colocar una clave.', {color: 'red'});$('#clave1').focus();</script>";
+    else if($_GET["info"]=="max") 
+    {
+      echo "<script>ohSnap('La clave debe ser mayor o igual a 6 caracteres.', {color: 'red'});$('#clave1').focus();</script>";
+    }
     else if($_GET["info"]=="clave2") echo "<script>ohSnap('Debe repetir su clave.', {color: 'red'});$('#clave2').focus();</script>";
     else if($_GET["info"]=="claves") echo "<script>ohSnap('Las claves deben ser iguales', {color: 'red'});$('#clave1').focus();</script>";
     else if($_GET["info"]=="sexo") echo "<script>ohSnap('Debe indicar un sexo', {color: 'red'});$('#sexo').focus();</script>";
@@ -114,6 +119,19 @@
      else if($_GET["info"]=="true") {echo '<script>swal("Atención!", "Se ha enviado un correo para la activación de su cuenta.", "info");
      </script>';}
 
+  }
+   if(isset($_GET["validate"]))
+  {
+    if($_GET["validate"]=="correo")
+    {
+      echo '<script>swal("Atención!", "Este correo ya esta siendo usado en otra cuenta.", "error");
+     </script>';
+    }
+    else if($_GET["validate"]=="usuario")
+    {
+         echo '<script>swal("Atención!", "Este usuario ya esta siendo usado en otra cuenta.", "error");
+     </script>';
+    }
   }  
  ?>
 </body>

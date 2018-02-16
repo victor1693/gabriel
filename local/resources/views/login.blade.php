@@ -60,7 +60,15 @@
     if($_GET["info"]=="correo") echo "<script>ohSnap('Debe colorcar su correo.', {color: 'orange '});$('#correo').focus();</script>";
     else if($_GET["info"]=="pass") echo "<script>ohSnap('Debe colorcar su clave.', {color: 'orange '});$('#pass').focus();</script>";
     else if($_GET["info"]=="false") echo "<script>ohSnap('Usuario no registrado.', {color: 'red'});$('#pass').focus();</script>";
-  }   
+  } 
+  if(isset($_GET["activate"]))
+  {
+    if($_GET["activate"]=="false")
+    {
+       echo '<script>swal("Atención!", "Esta cuenta aún no ha sido activada, revice el su correo.", "info");
+     </script>';
+    }
+  }  
  ?>
 </body>
 </html>

@@ -1,5 +1,4 @@
 <?php namespace App\Http\Controllers;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use DB;
@@ -37,14 +36,34 @@ class con_login extends Controller {
                  $datos=DB::select($sql);
             } catch (QueryException $e) {
             	return Redirect('error');
-            }
-
+            } 
           if($datos[0]->contador)
           {
-          	$request->session()->set('correo', $datos[0]->email);
-            $request->session()->set('nombre', $datos[0]->login);
-            $request->session()->set('id', $datos[0]->idUsuario);
-            return Redirect('inicio');
+
+          	 $sql="
+				 SELECT estado,COUNT(estado) AS contador 
+				 FROM usuario 
+				 WHERE (email = '".$_POST['correo']."' 
+				 OR  login = '".$_POST['correo']."') 
+				 AND clave ='".hash('sha256', $_POST['pass'])."'";				 
+				 	try {
+		                $datos2=DB::select($sql);
+		                if($datos2[0]->estado==1)
+          				{
+          					$request->session()->set('correo', $datos[0]->email);
+				            $request->session()->set('nombre', $datos[0]->login);
+				            $request->session()->set('id', $datos[0]->idUsuario);
+				            return Redirect('inicio');
+          				}
+          				else
+          				{
+          					return Redirect('iniciar?activate=false');
+          				}
+		                
+		            } catch (QueryException $e) {
+		            	return Redirect('error');
+		            } 
+          	
           }
           else
           {
@@ -52,13 +71,11 @@ class con_login extends Controller {
           }
 	}
 
-
 	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
-
 
 	public function salir(Request $request)
 	{
@@ -67,51 +84,4 @@ class con_login extends Controller {
 		$request->session()->forget('nombre');    
         return redirect('/');
 	}
-
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-
-	public function show($id)
-	{
-		//
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
-
 }
