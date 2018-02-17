@@ -41,7 +41,7 @@ class con_register extends Controller {
 		          	 else
 		          	 {
 	 					 $sql="UPDATE usuario SET estado=1 WHERE  token='".$id."'";
-			             $datos=DB::select($sql);
+			             DB::update($sql);
 			             return Redirect('token?token=true'); 
 		          	 }
 		          }

@@ -12,7 +12,7 @@
         <div class="login-box text-center">
         <?php if(isset($_GET['token']))
         {
-            if(!$_GET['token'])
+            if($_GET['token']=="false")
             {
                 echo'<img src="https://privacy.google.com/images/animations/your-security/last-frame-1.svg" style="width: 250px;height: 250px;">
                         <div class="login-logo" style="margin-bottom: 0px;">
