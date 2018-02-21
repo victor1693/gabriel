@@ -16,45 +16,52 @@
       <ul class="sidebar-menu" data-widget="tree">         
         <li>
           <a href="#">
-            <i class="fa fa-th"></i> <span>Buscar Opin</span> 
+            <i class="fa fa-search"></i> <span>Buscar Opin</span> 
           </a>
         </li> 
 
          <li>
           <a href="#">
-            <i class="fa fa-th"></i> <span>Opin Privados</span> 
+            <i class="fa fa-key"></i> <span>Opin Privados</span> 
           </a>
         </li> 
 
          <li>
           <a href="#">
-            <i class="fa fa-th"></i> <span>My Opin</span> 
+            <i class="fa fa-area-chart"></i> <span>My Opin</span> 
           </a>
         </li> 
 
          <li>
           <a href="#">
-            <i class="fa fa-th"></i> <span>Favoritos</span> 
+            <i class="fa fa-heart"></i> <span>Favoritos</span> 
           </a>
         </li> 
 
          <li>
           <a href="#">
-            <i class="fa fa-th"></i> <span>Opin Votatos</span> 
+            <i class="fa fa-thumbs-up"></i> <span>Opin Votatos</span> 
           </a>
         </li> 
 
          <li>
           <a href="#">
-            <i class="fa fa-th"></i> <span>Crear Opin</span> 
+            <i class="fa fa-plus"></i> <span>Crear Opin</span> 
           </a>
         </li> 
 
-         <li>
+         <li class="treeview">
           <a href="#">
-            <i class="fa fa-th"></i> <span>Settings</span> 
+            <i class="fa fa-cog"></i> <span>Settings</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
-        </li> 
+          <ul class="treeview-menu" style="display: none;">
+            <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li> 
+          </ul>
+        </li>
+
       </ul>
     </section>
     <!-- /.sidebar -->

@@ -1,0 +1,16 @@
+.sp {
+    padding: 0px;
+}
+.menu-op {
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    text-decoration: none;
+    color: #000;
+}
+.menu-op:hover {
+    color: #000;
+}
+.menu-op:active {
+    color: #000;
+}
