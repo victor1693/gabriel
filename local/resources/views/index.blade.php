@@ -22,6 +22,7 @@
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <section class="content">
+                <?php include('local/resources/views/includes/aside_right.php');?>
                     <div class="row">
                         <div class="col-sm-12 text-center" style="padding: 0px; margin-bottom: 15px;">
                              
@@ -168,7 +169,7 @@
                                 <div class="col-xs-12" style="padding: 0px;">
                                     <div class="box" style="padding-top: 8px;">
                                         <span style="font-size: 16px;">
-                                            Opin mas votados
+                                            Opin más votados
                                         </span>
                                         <table class="table table-condensed .table-hover" style="margin-top: 6px;">
                                             <tbody>
@@ -190,11 +191,15 @@
                                                             <span> 
                                                             '.$key->fechaCreacion.' 
                                                             </span>
-                                                            <a class="pull-right" href="'.$key->idUsuario.'" style="text-decoration: underline;">
-                                                                <strong>
-                                                                '.$key->login.'  
-                                                                </strong>
-                                                            </a>
+                                                             <span>
+                                                                '.$key->fechaCreacion.'
+                                                                <span style="padding-left: 15px;">
+                                                                   <i class="fa fa-fw fa-heart"><span style="margin-left:5px;">'.$key->numeroFavoritos.'</span></i>
+                                                                </span>
+                                                                <span style="padding-left: 20px;">
+                                                                  <i class="ion ion-stats-bars"><span style="margin-left:5px;">'.$key->numeroVotantes.'</span></i>
+                                                                </span>
+                                                            </span> 
                                                         </div>
                                                     </td>
                                                 </tr>'; 
@@ -214,25 +219,32 @@
                                         </span>
                                         <table class="table table-condensed .table-hover" style="margin-top: 6px;">
                                             <tbody>
-                                                <tr>
-                                                    <td style="width: 20px;padding-top: 15px;">
-                                                        1
-                                                    </td>
-                                                    <td>
-                                                        <div class="text-left" style="font-size: 12px;">
-                                                            <a class=" " href="#" style="text-decoration: underline;">
-                                                                <strong>
-                                                                    Usuario
-                                                                </strong>
-                                                            </a>
-                                                        </div>
-                                                        <div class="text-left" style="font-size: 10px;padding-top: 5px;">
-                                                            <span>
-                                                                2.815 Pts | 29 Opins | 372 Respuestas
-                                                            </span>
-                                                        </div>
-                                                    </td>
-                                                </tr> 
+                                                
+                                                <?php 
+                                                $contador=0;
+                                                    foreach ($user_top as $key ) {
+                                                        $contador++;
+                                                        echo '<tr><td style="width: 20px;padding-top: 15px;">
+                                                            '.$contador.'
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-left" style="font-size: 10px;">
+                                                                <a class=" " href="#" style="text-decoration: underline;">
+                                                                    <strong>
+                                                                      '.$key->usuario.'
+                                                                    </strong>
+                                                                </a>
+                                                            </div>
+                                                            <div class="text-left" style="font-size: 10px;padding-top: 5px;">
+                                                                <span>
+                                                                    '.$key->puntos.' Pts | '.$key->opins.' Opins | '.$key->total.' Respuestas
+                                                                </span>
+                                                            </div>
+                                                        </td> </tr> ';
+                                                    }
+                                                ?>
+                                                    
+                                               
                                             </tbody>
                                         </table>
                                     </div>

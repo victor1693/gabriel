@@ -13,7 +13,12 @@
       </div>
        
       <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu" data-widget="tree">         
+      <ul class="sidebar-menu" data-widget="tree">
+      <li>
+          <a href="inicio">
+            <i class="fa fa-dashboard"></i> <span>Inicio</span> 
+          </a>
+        </li>          
         <li>
           <a href="#">
             <i class="fa fa-search"></i> <span>Buscar Opin</span> 

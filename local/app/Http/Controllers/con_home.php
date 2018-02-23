@@ -28,7 +28,15 @@ class con_home extends Controller {
 			$datos=DB::select($sql);
 			$vista->tematica=$datos;
 
-			$sql="SELECT if(t4.login is null,'Administrador',t4.login) as login,t4.idUsuario, date_format(t1.fechaCreacion,'%d-%m-%Y') as fechaCreacion, t1.idEncuesta , t2.textoPregunta,t1.numeroVotantes FROM `encuesta` t1
+			$sql="SELECT count( t1.idEncuesta) as opins,t1.idUsuarioPropietario,if(t2.login is null,'Administrador',t2.login) as usuario,sum(t1.numeroVotantes) as total,if(t3.valor is null,0,t3.valor) puntos,t4.textoPregunta as pregunta FROM `encuesta` t1
+				LEFT JOIN usuario t2 ON t2.idUsuario = t1.idUsuarioPropietario
+				LEFT JOIN puntuacion t3 ON t3.idUsuario = t1.idUsuarioPropietario
+				LEFT JOIN preguntaencuesta t4 ON t4.idEncuesta = t1.idEncuesta
+				GROUP BY t1.idUsuarioPropietario limit 0,5";
+			$datos=DB::select($sql);
+			$vista->user_top=$datos;
+
+			$sql="SELECT t1.numeroFavoritos, if(t4.login is null,'Administrador',t4.login) as login,t4.idUsuario, date_format(t1.fechaCreacion,'%d-%m-%Y') as fechaCreacion, t1.idEncuesta , t2.textoPregunta,t1.numeroVotantes FROM `encuesta` t1
 			LEFT JOIN preguntaencuesta t2 ON t1.idEncuesta = t2.idPreguntaEncuesta
 			LEFT JOIN usuario t4 ON t1.idUsuarioPropietario = t4.idUsuario
 			order by t1.numeroVotantes desc LIMIT 0,5";
