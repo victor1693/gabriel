@@ -1,4 +1,5 @@
 <?php
+Route::post('test', 'con_register@test');
 Route::get('/', 'con_login@index');
 Route::get('iniciar', 'con_login@index');
 Route::get('register', 'con_register@index');
@@ -7,13 +8,15 @@ Route::get('error', function (){return view('error.error');});
 Route::get('token', function (){return view('error.token');});
 Route::get('terminos', function (){return view('terminos');});
 Route::post('login', 'con_login@create');
-Route::post('registro', 'con_register@create');
-
+Route::post('registro', 'con_register@create'); 
+ 
 //Rutas Gabriel
 Route::get('clean', function (){return view('clean');});
+
 //Rutas con privilegios
 Route::group(['middleware' =>'login'], function () { 
 Route::get('inicio', 'con_home@index'); 
-Route::get('logout', 'con_login@salir'); 
+Route::get('logout', 'con_login@salir');
+Route::post('listaropins', 'con_home@ajax_listar_opins');
 });
  

@@ -2,17 +2,16 @@
 <html>
     <head>
         <meta charset="utf-8">
-            <meta content="IE=edge" http-equiv="X-UA-Compatible">
+            <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
                 <title>
                     OpinionApp
                 </title>
                 <!-- Tell the browser to be responsive to screen width -->
-                <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+                <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
                     <!-- Bootstrap 3.3.7 -->
-                    <?php include('local/resources/views/includes/referencias_top.html');?>
-                </meta>
-            </meta>
-        </meta>
+                    <?php include('local/resources/views/includes/referencias_top.html');?> 
+            </meta> 
+        <meta name="csrf-token" content="<?php echo csrf_token(); ?>">
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
@@ -83,7 +82,7 @@
                             <div class="col-sm-9" style="padding: 0px;">
                                 <div class="col-sm-12">
                                     <div class="col-sm-6 sp text-center">
-                                        <input class="form-control" name="buscar" placeholder="Buscador" type="text">
+                                        <input onkeyup="filtrar(this.value,'','','','fecha')" id="buscador" class="form-control" name="buscar" placeholder="Buscador" type="text">
                                         </input>
                                     </div>
                                     <div class="col-sm-3 sp text-center">
@@ -92,10 +91,10 @@
                                         </span>
                                     </div>
                                     <div class="col-sm-3 sp text-center">
-                                        <button class="btn btn-sm btn-info">
+                                        <button class="btn btn-sm btn-info" onClick="setVotos()">
                                             Votos
                                         </button>
-                                        <button class="btn btn-sm btn-info">
+                                        <button class="btn btn-sm btn-info" onClick="setFecha()">
                                             Fecha
                                         </button>
                                     </div>
@@ -111,55 +110,8 @@
                                 <div class="col-sm-12"><img src="">
                                     <div class="box">
                                         <table class="table table-condensed .table-hover" style="margin-top: 6px;">
-                                            <tbody>
-                                                <?php
-                                                    foreach ($opins as $key ) {
-                                                        $usuario="Administrador";
-                                                        $carpeta="0";
-                                                        $imagen="0.png";
-                                                        if($key->login!=null)
-                                                        {
-                                                            $usuario=$key->login;
-                                                        }
-                                                        
-                                                                $carpeta=$key->idEncuesta;
-                                                                $imagen=$key->foto;
-                                                                if($key->foto==null)
-                                                                {
-                                                                     $carpeta="0";
-                                                                     $imagen="0.png";
-                                                                }
-                                                           
-                                                        echo '<tr>
-                                                    <td style="width: 20px;padding-left: 5px;">
-                                                        <img class="img-circle" style="width:30px;height:30px;" src="local/resources/views/uploads/encuestas/'.$carpeta.'/'.$imagen.'">
-                                                    </td>
-                                                    <td>
-                                                        <div class="text-left" style="font-size: 12px;">
-                                                            <strong>
-                                                               '.$key->textoPregunta.'
-                                                            </strong>
-                                                        </div>
-                                                        <div class="text-left" style="font-size: 12px;padding-top: 2px;">
-                                                            <span>
-                                                                '.$key->fechaCreacion.'
-                                                                <span style="padding-left: 15px;">
-                                                                   <i class="fa fa-fw fa-heart"><span style="margin-left:5px;">'.$key->favorito.'</span></i>
-                                                                </span>
-                                                                <span style="padding-left: 20px;">
-                                                                  <i class="ion ion-stats-bars"><span style="margin-left:5px;">'.$key->numeroVotantes.'</span></i>
-                                                                </span>
-                                                            </span>
-                                                            <a class="pull-right" href="'.$key->idUsuarioPropietario.'" style="text-decoration: underline;">
-                                                                <strong>
-                                                                   '.$usuario.'
-                                                                </strong>
-                                                            </a>
-                                                        </div>
-                                                    </td>
-                                                </tr>';
-                                                    }
-                                                ?>                                              
+                                            <tbody id="tabla_opins">
+                                                                                       
                                             </tbody>
                                         </table>
                                     </div>
@@ -191,8 +143,7 @@
                                                             <span> 
                                                             '.$key->fechaCreacion.' 
                                                             </span>
-                                                             <span>
-                                                                '.$key->fechaCreacion.'
+                                                             <span> 
                                                                 <span style="padding-left: 15px;">
                                                                    <i class="fa fa-fw fa-heart"><span style="margin-left:5px;">'.$key->numeroFavoritos.'</span></i>
                                                                 </span>
@@ -255,12 +206,87 @@
                 </section>
             </div>
         </div>
-    </body>
-</html>
-<!-- /.info-box -->
+        <!-- /.info-box -->
 <!-- /.content -->
 <!-- /.content-wrapper -->
 <?php //include('includes/footer.php');?>
 <div class="control-sidebar-bg">
 </div>
 <?php include('local/resources/views/includes/referencias_down.php');?>
+ 
+<script type="text/javascript">
+intervalo=1000;
+bcategoria="";
+bvotos=0;
+bfecha=0;
+bfiltro="fecha";
+$(document).ready(function() { 
+filtrar("","",bvotos,bfecha)
+}); 
+function filtrar(buscar,categoria,votos,fecha,filtro)
+{
+     if(votos=="" && fecha==""){votos=bvotos;fecha=bfecha;} 
+     $("#tabla_opins").html("");
+     $("#tabla_opins").empty();
+     generar_opins(buscar,categoria,votos,fecha,bfiltro);
+}
+
+function setVotos()
+{
+     if(bvotos==0){bvotos=1}else{bvotos=0;} 
+     bfiltro="votos";
+     bfecha=0;
+     filtrar($("#buscador").val(),"",bvotos,bfecha,bfiltro)
+}
+function setFecha()
+{
+     if(bfecha==0){bfecha=1}else{bfecha=0;}
+     bfiltro="fecha";
+     bvotos=0; 
+     filtrar($("#buscador").val(),"",bvotos,bfecha,bfiltro)
+}
+
+    function generar_opins(buscar,categoria,votos,fecha,filtro)
+    {   
+        $("#tabla_opins").empty(); 
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });  
+        $.ajax({
+            url: 'listaropins',
+            type: 'post',
+           dataType:"json", 
+            data:{fbuscar:buscar,fvotos:votos,fcategoria:categoria,ffecha:fecha,ffiltro:filtro},
+            success: function(data)  
+            {
+             columna="";
+                $.each(data, function(i, datos) {
+                    usuario="Administrador";
+                    carpeta="0";
+                    imagen="0.png";
+                        if(datos["login"]!=null)
+                        {
+                            usuario=datos["login"];
+                        }
+                                                            
+                        carpeta=datos["idEncuesta"];
+                        imagen=datos["foto"];
+                        if(datos["foto"]==null)
+                        {
+                        carpeta="0";
+                        imagen="0.png";
+                        }
+                     columna=columna+'<tr> <td style="width: 20px;padding-left: 5px;"> <img class="img-circle" style="width:30px;height:30px;" src="local/resources/views/uploads/encuestas/'+carpeta+'/'+imagen+'"> </td> <td> <div class="text-left" style="font-size: 12px;"> <strong> '+datos["textoPregunta"]+' </strong> </div> <div class="text-left" style="font-size: 12px;padding-top: 2px;"> <span> '+datos["fechaCreacion"]+' <span style="padding-left: 15px;"> <i class="fa fa-fw fa-heart"><span style="margin-left:5px;">'+datos["favorito"]+'</span></i> </span> <span style="padding-left: 20px;"> <i class="ion ion-stats-bars"><span style="margin-left:5px;">'+datos["numeroVotantes"]+'</span></i> </span> </span> <a class="pull-right" href="'+datos["idUsuarioPropietario"]+'" style="text-decoration: underline;"> <strong> '+usuario+' </strong> </a> </div> </td> </tr>';    
+                });
+                $("#tabla_opins").html("");
+                $("#tabla_opins").html(columna);
+            }
+               
+        })
+    }
+</script>
+    </body>
+</html>
+

@@ -12,6 +12,32 @@ class con_home extends Controller {
 	 *
 	 * @return Response
 	 */
+	public function ajax_listar_opins()
+	{
+		 
+		$order=""; 
+	 
+			if($_POST['ffiltro']=="votos")
+			{
+				if($_POST['fvotos']==1){$order=" order by t1.numeroVotantes desc";}
+				else{$order=$order." order by  t1.numeroVotantes asc";}
+			}
+			else
+			{
+				if($_POST['ffecha']==1){$order="  order by t1.fechaCreacion desc";}
+				else{$order=$order."  order by t1.fechaCreacion asc";}
+			} 
+	  
+			$sql="SELECT  t1.creadaPorAdministrador,numeroFavoritos as favorito,numeroVotantes, t1.nombreFoto as foto, t3.login, t1.idUsuarioPropietario, t1.idEncuesta,date_format(t1.fechaCreacion,'%d-%m-%Y') as fechaCreacion ,t2.textoPregunta from encuesta t1
+			LEFT JOIN preguntaencuesta t2 ON t1.idEncuesta = t2.idEncuesta
+			LEFT JOIN usuario t3 ON t1.idUsuarioPropietario = t3.idUsuario
+			WHERE  t2.textoPregunta like '%".$_POST['fbuscar']."%' AND t1.publica = 1 AND t1.bloqueada = 0
+			".$order."
+			"; 
+		 $datos=DB::select($sql);
+			echo json_encode($datos); 
+	}
+
 	public function index()
 	{
 		try {
@@ -41,15 +67,7 @@ class con_home extends Controller {
 			LEFT JOIN usuario t4 ON t1.idUsuarioPropietario = t4.idUsuario
 			order by t1.numeroVotantes desc LIMIT 0,5";
 			$datos=DB::select($sql);
-			$vista->topopin=$datos; 
-
-			$sql="SELECT  t1.creadaPorAdministrador,numeroFavoritos as favorito,numeroVotantes, t1.nombreFoto as foto, t3.login, t1.idUsuarioPropietario, t1.idEncuesta,date_format(t1.fechaCreacion,'%d-%m-%Y') as fechaCreacion ,t2.textoPregunta from encuesta t1
-			LEFT JOIN preguntaencuesta t2 ON t1.idEncuesta = t2.idEncuesta
-			LEFT JOIN usuario t3 ON t1.idUsuarioPropietario = t3.idUsuario
-			WHERE t1.publica = 1 AND t1.bloqueada = 0";
-			$datos=DB::select($sql);
-            $vista->opins=$datos;       
-                
+			$vista->topopin=$datos;   
                  return $vista;
 		} catch (Exception $e) {
 			return Redirect('error'); 

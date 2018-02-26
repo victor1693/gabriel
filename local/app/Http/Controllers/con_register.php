@@ -12,6 +12,8 @@ class con_register extends Controller {
 	 *
 	 * @return Response
 	 */
+ 
+
 	public function index()
 	{
 

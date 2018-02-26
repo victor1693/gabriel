@@ -12,7 +12,7 @@
 <script src="/gabriel/local/resources/views/bootstrap/js/bootstrap.min.js"></script>
 <!-- Morris.js charts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-<script src="/gabriel/local/resources/views/plugins/morris/morris.min.js"></script>
+ 
 <!-- Sparkline -->
 <script src="/gabriel/local/resources/views/plugins/sparkline/jquery.sparkline.min.js"></script>
 <!-- jvectormap -->
@@ -33,8 +33,7 @@
 <script src="/gabriel/local/resources/views/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/gabriel/local/resources/views/dist/js/adminlte.min.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="/gabriel/local/resources/views/dist/js/pages/dashboard.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) --> 
 <!-- AdminLTE for demo purposes -->
 <script src="/gabriel/local/resources/views/dist/js/demo.js"></script>
 <script src="https://rawgithub.com/justindomingue/ohSnap/master/ohsnap.js"></script>
