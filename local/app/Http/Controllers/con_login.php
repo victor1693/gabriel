@@ -53,6 +53,7 @@ class con_login extends Controller {
           					$request->session()->set('correo', $datos[0]->email);
 				            $request->session()->set('nombre', $datos[0]->login);
 				            $request->session()->set('id', $datos[0]->idUsuario);
+				             $request->session()->set('tipo', 'user');
 				            return Redirect('inicio');
           				}
           				else
@@ -67,7 +68,41 @@ class con_login extends Controller {
           }
           else
           {
-          	 return Redirect('iniciar?info=false');
+          	 $sql="
+			 SELECT idAdministrador, login, clave,COUNT(idAdministrador) AS contador 
+			 FROM administrador 
+			 WHERE  login = '".$_POST['correo']."' AND clave ='".hash('sha256', $_POST['pass'])."'";
+			 
+		 	try {
+                 $datos=DB::select($sql);
+                  if($datos[0]->contador)
+			          { 
+			          	 $sql="
+							 SELECT *, COUNT(idAdministrador) AS contador 
+							 FROM administrador 
+							 WHERE (login = '".$_POST['correo']."') 
+							 AND clave ='".hash('sha256', $_POST['pass'])."'";				 
+							 	try {
+					                $datos2=DB::select($sql);
+					                
+			          					$request->session()->set('correo', $datos[0]->login);
+							            $request->session()->set('nombre', $datos[0]->login);
+							            $request->session()->set('id', $datos[0]->idAdministrador);
+							            $request->session()->set('tipo', 'admin');
+							            return Redirect('inicio'); 					                
+					            } catch (QueryException $e) {
+					            	return Redirect('error');
+					            } 
+			          	
+			          }
+			          else
+			          {
+			          	return Redirect('iniciar?info=false');
+			          }
+            } catch (QueryException $e) {
+            	return Redirect('error');
+            } 
+          	 
           }
 	}
 
@@ -81,7 +116,8 @@ class con_login extends Controller {
 	{
 		$request->session()->forget('correo');
 		$request->session()->forget('id');
-		$request->session()->forget('nombre');    
+		$request->session()->forget('nombre'); 
+		 $request->session()->forget('tipo');  
         return redirect('/');
 	}
 }

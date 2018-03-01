@@ -14,13 +14,9 @@
        
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-      <li>
-          <a href="inicio">
-            <i class="fa fa-dashboard"></i> <span>Inicio</span> 
-          </a>
-        </li>          
+             
         <li>
-          <a href="#">
+          <a href="inicio">
             <i class="fa fa-search"></i> <span>Buscar Opin</span> 
           </a>
         </li> 
@@ -63,7 +59,11 @@
             </span>
           </a>
           <ul class="treeview-menu" style="display: none;">
-            <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li> 
+            <li><a href="#"><i class="fa fa-circle-o"></i>Perfil</a></li> 
+            <li><a href="#"><i class="fa fa-circle-o"></i>Lenguaje</a></li> 
+            <li><a href="#"><i class="fa fa-circle-o"></i>Notificaciones</a></li> 
+            <li><a href="#"><i class="fa fa-circle-o"></i>Compartir</a></li> 
+            <li><a href="#"><i class="fa fa-circle-o"></i>Cotáctanos</a></li> 
           </ul>
         </li>
 

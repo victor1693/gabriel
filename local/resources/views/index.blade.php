@@ -93,18 +93,22 @@
                                     <div class="col-sm-3 sp text-center">
                                         <button class="btn btn-sm btn-info" onClick="setVotos()">
                                             Votos
+                                            <i id="btn_votos" class="fa fa-arrow-circle-up"></i>
+
+
                                         </button>
                                         <button class="btn btn-sm btn-info" onClick="setFecha()">
                                             Fecha
+                                            <i id="btn_fecha" class="fa fa-arrow-circle-up"></i>
                                         </button>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 sp text-center" style="background-color: #e8e8e8;padding-top: 10px;padding-bottom: 10px;margin-top: 5px;z-index: 1;">
-                                    <a class="menu-op" href="#">
+                                    <a class="menu-op" onClick="setCategoria(0)">
                                         Todas
                                     </a>
                                     <?php foreach ($tematica as $key ) {
-                                    echo '<a class="menu-op" href="'.$key->idTematica.'">'.$key->titulo.'</a>';
+                                    echo '<a class="menu-op" onClick="setCategoria('.$key->idTematica.')">'.$key->titulo.'</a>';
                                     }?>
                                 </div>
                                 <div class="col-sm-12"><img src="">
@@ -193,9 +197,7 @@
                                                             </div>
                                                         </td> </tr> ';
                                                     }
-                                                ?>
-                                                    
-                                               
+                                                ?> 
                                             </tbody>
                                         </table>
                                     </div>
@@ -206,7 +208,14 @@
                 </section>
             </div>
         </div>
-        <!-- /.info-box -->
+
+<style type="text/css">
+    .favoritoUser
+    {
+        color: #c12600;
+         
+    }
+</style>>
 <!-- /.content -->
 <!-- /.content-wrapper -->
 <?php //include('includes/footer.php');?>
@@ -216,37 +225,95 @@
  
 <script type="text/javascript">
 intervalo=1000;
-bcategoria="";
+bcategoria=0;
 bvotos=0;
 bfecha=0;
 bfiltro="fecha";
+baderaFecha=0;
+baderaVotos=0; 
 $(document).ready(function() { 
-filtrar("","",bvotos,bfecha)
+filtrar("",bvotos,bfecha,bfiltro,bcategoria)
 }); 
-function filtrar(buscar,categoria,votos,fecha,filtro)
+
+
+ 
+ 
+
+function filtrar(buscar,votos,fecha,filtro,categoria)
 {
      if(votos=="" && fecha==""){votos=bvotos;fecha=bfecha;} 
      $("#tabla_opins").html("");
      $("#tabla_opins").empty();
-     generar_opins(buscar,categoria,votos,fecha,bfiltro);
+     generar_opins(buscar,votos,fecha,bfiltro,bcategoria);
 }
 
 function setVotos()
 {
-     if(bvotos==0){bvotos=1}else{bvotos=0;} 
+     if(bvotos==0)
+     {
+     $("#btn_votos").removeClass("fa fa-arrow-circle-up");
+     $("#btn_votos").addClass("fa fa-arrow-circle-down");
+     bvotos=1;
+     }
+     else
+     {
+    $("#btn_votos").removeClass("fa fa-arrow-circle-down");
+    $("#btn_votos").addClass("fa fa-arrow-circle-up");
+        bvotos=0;
+     } 
+     $("#btn_fecha").removeClass("fa fa-arrow-circle-down");
+     $("#btn_fecha").addClass("fa fa-arrow-circle-up");   
      bfiltro="votos";
      bfecha=0;
-     filtrar($("#buscador").val(),"",bvotos,bfecha,bfiltro)
+     filtrar($("#buscador").val(),bvotos,bfecha,bfiltro,bcategoria)
 }
 function setFecha()
 {
-     if(bfecha==0){bfecha=1}else{bfecha=0;}
+     if(bfecha==0)
+    {
+    $("#btn_fecha").removeClass("fa fa-arrow-circle-up");
+    $("#btn_fecha").addClass("fa fa-arrow-circle-down");
+    bfecha=1;
+    }
+    else
+    {
+    $("#btn_fecha").removeClass("fa fa-arrow-circle-down");
+    $("#btn_fecha").addClass("fa fa-arrow-circle-up");
+    bfecha=0;
+    }  
      bfiltro="fecha";
      bvotos=0; 
-     filtrar($("#buscador").val(),"",bvotos,bfecha,bfiltro)
+     $("#btn_votos").removeClass("fa fa-arrow-circle-down");
+     $("#btn_votos").addClass("fa fa-arrow-circle-up");
+     filtrar($("#buscador").val(),bvotos,bfecha,bfiltro,bcategoria)
 }
+function setCategoria(valor)
+{
+     bcategoria=valor;
+     filtrar($("#buscador").val(),bvotos,bfecha,bfiltro,bcategoria)
+}
+function validar_favoritos()
+    {    
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });  
+        $.ajax({
+            url: 'validaropin',
+            type: 'post',
+            dataType:"json",   
+            success: function(data)  
+            { 
+                  $.each(data, function(i, datos) {
+                    $("#"+datos['idEncuesta']).addClass("favoritoUser");                        
+                  });
+            }
+               
+        })
+    } 
 
-    function generar_opins(buscar,categoria,votos,fecha,filtro)
+    function generar_opins(buscar,votos,fecha,filtro,categoria)
     {   
         $("#tabla_opins").empty(); 
         $.ajaxSetup({
@@ -257,18 +324,31 @@ function setFecha()
         $.ajax({
             url: 'listaropins',
             type: 'post',
-           dataType:"json", 
-            data:{fbuscar:buscar,fvotos:votos,fcategoria:categoria,ffecha:fecha,ffiltro:filtro},
+            dataType:"json", 
+            data:{fbuscar:buscar,fvotos:votos,ffecha:fecha,ffiltro:filtro,fcategoria:categoria},
             success: function(data)  
             {
+           
              columna="";
-                $.each(data, function(i, datos) {
+                $.each(data, function(i, datos) {  
                     usuario="Administrador";
                     carpeta="0";
                     imagen="0.png";
+                    seleccionUnica="";
+                    fechaFin="";
+                    baderaVerde='<i style="margin-right:5px;color:#006804;" class="fa fa-flag"></i>';
+                    baderaRoja='<i style="margin-right:5px;color:#8e0015;" class="fa fa-flag"></i>';
                         if(datos["login"]!=null)
                         {
                             usuario=datos["login"];
+                        }
+                        if(datos["seleccionUnica"]==1)
+                        {
+                            seleccionUnica='<i style="margin-left:10px;" class="fa  fa-check-square"></i>';
+                        }
+                        if(datos["fechaFin"]!=null)
+                        {
+                           fechaFin=baderaRoja+datos["fechaFin"];
                         }
                                                             
                         carpeta=datos["idEncuesta"];
@@ -278,15 +358,19 @@ function setFecha()
                         carpeta="0";
                         imagen="0.png";
                         }
-                     columna=columna+'<tr> <td style="width: 20px;padding-left: 5px;"> <img class="img-circle" style="width:30px;height:30px;" src="local/resources/views/uploads/encuestas/'+carpeta+'/'+imagen+'"> </td> <td> <div class="text-left" style="font-size: 12px;"> <strong> '+datos["textoPregunta"]+' </strong> </div> <div class="text-left" style="font-size: 12px;padding-top: 2px;"> <span> '+datos["fechaCreacion"]+' <span style="padding-left: 15px;"> <i class="fa fa-fw fa-heart"><span style="margin-left:5px;">'+datos["favorito"]+'</span></i> </span> <span style="padding-left: 20px;"> <i class="ion ion-stats-bars"><span style="margin-left:5px;">'+datos["numeroVotantes"]+'</span></i> </span> </span> <a class="pull-right" href="'+datos["idUsuarioPropietario"]+'" style="text-decoration: underline;"> <strong> '+usuario+' </strong> </a> </div> </td> </tr>';    
+                     columna=columna+'<tr> <td style="width: 20px;padding-left: 5px;"> <img class="img-circle" style="width:30px;height:30px;" src="local/resources/views/uploads/encuestas/'+carpeta+'/'+imagen+'"> </td> <td> <div class="text-left" style="font-size: 12px;"> <strong> '+datos["textoPregunta"]+'</strong> </div> <div class="text-left" style="font-size: 12px;padding-top: 2px;"> <span> '+baderaVerde+datos["fechaCreacion"]+' '+fechaFin+'   '+seleccionUnica+' <span style="padding-left: 15px;"> <i id="'+datos["idEncuesta"]+'" class="fa fa-fw fa-heart"><span  style="margin-left:5px;color:#000;">'+datos["favorito"]+'</span></i> </span> <span style="padding-left: 20px;"> <i class="ion ion-stats-bars"><span style="margin-left:5px;">'+datos["numeroVotantes"]+'</span></i></span> <i style="margin-left:10px;"  class="fa fa-group "></i> </span> <a class="pull-right" href="'+datos["idUsuarioPropietario"]+'" style="text-decoration: underline;"> <strong> '+usuario+' </strong> </a> </div> </td> </tr>';    
                 });
                 $("#tabla_opins").html("");
                 $("#tabla_opins").html(columna);
+                validar_favoritos();
             }
                
         })
     }
+    
 </script>
+ 
+
     </body>
 </html>
 

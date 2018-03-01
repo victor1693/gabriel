@@ -16,6 +16,13 @@
         <ul class="nav navbar-nav"> 
            
           <!-- User Account: style can be found in dropdown.less -->
+          <?php
+            if(session()->get("tipo")=='admin')
+            {
+              echo'<li class="dropdown user user-menu"><a href=""> <span class="hidden-xs">Admnistrador</span></a> </li>';
+            }
+          ?>
+          
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="local/resources/views/img/profile-users/<?php echo session()->get("id");?>.jpg" class="user-image" alt="User Image">
@@ -23,8 +30,7 @@
             </a>             
           </li>
            <li class="dropdown user user-menu">
-            <a href="logout">
-               
+            <a href="logout"> 
               <span class="hidden-xs">Salir</span>
             </a>             
           </li>

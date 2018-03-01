@@ -7,14 +7,17 @@ use Illuminate\Http\Request;
 use DB;
 class con_home extends Controller {
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function ajax_listar_opins()
+	
+	public function validar_votados() //saber si el opin fue votado por el usuario logueado 
 	{
-		 
+		$sql="SELECT * from favoritoencuesta WHERE idUsuario= ".session()->get('id')." ";
+		$datos=DB::select($sql); 
+		echo json_encode($datos); 
+	}
+
+	public function ajax_listar_opins() //listar todos los opins
+	{
+		
 		$order=""; 
 	 
 			if($_POST['ffiltro']=="votos")
@@ -27,15 +30,28 @@ class con_home extends Controller {
 				if($_POST['ffecha']==1){$order="  order by t1.fechaCreacion desc";}
 				else{$order=$order."  order by t1.fechaCreacion asc";}
 			} 
-	  
-			$sql="SELECT  t1.creadaPorAdministrador,numeroFavoritos as favorito,numeroVotantes, t1.nombreFoto as foto, t3.login, t1.idUsuarioPropietario, t1.idEncuesta,date_format(t1.fechaCreacion,'%d-%m-%Y') as fechaCreacion ,t2.textoPregunta from encuesta t1
+
+	  		$categoria="";
+	  	 	
+	  		 
+	  		if($_POST['fcategoria']!=0)
+			{
+				 $categoria=" AND t1.idTematica =".$_POST['fcategoria']." ";
+			}
+			else
+			{
+				 $categoria="";
+			} 
+
+			$sql="SELECT  t1.creadaPorAdministrador,numeroFavoritos as favorito,numeroVotantes, t1.nombreFoto as foto, t3.login, t1.idUsuarioPropietario, t1.idEncuesta,date_format(t1.fechaCreacion,'%d-%m-%Y') as fechaCreacion ,t2.textoPregunta,t1.idTematica,t1.fechaFin,t1.seleccionUnica from encuesta t1
 			LEFT JOIN preguntaencuesta t2 ON t1.idEncuesta = t2.idEncuesta
 			LEFT JOIN usuario t3 ON t1.idUsuarioPropietario = t3.idUsuario
-			WHERE  t2.textoPregunta like '%".$_POST['fbuscar']."%' AND t1.publica = 1 AND t1.bloqueada = 0
+			WHERE  t2.textoPregunta like '%".$_POST['fbuscar']."%'  AND t1.publica = 1 AND t1.bloqueada = 0 ".$categoria."
 			".$order."
-			"; 
-		 $datos=DB::select($sql);
-			echo json_encode($datos); 
+			";
+
+		 	 $datos=DB::select($sql);
+			echo json_encode($datos);
 	}
 
 	public function index()
