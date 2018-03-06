@@ -59,7 +59,7 @@
             </span>
           </a>
           <ul class="treeview-menu" style="display: none;">
-            <li><a href="#"><i class="fa fa-circle-o"></i>Perfil</a></li> 
+            <li><a href="profile"><i class="fa fa-circle-o"></i>Perfil</a></li> 
             <li><a href="#"><i class="fa fa-circle-o"></i>Lenguaje</a></li> 
             <li><a href="#"><i class="fa fa-circle-o"></i>Notificaciones</a></li> 
             <li><a href="#"><i class="fa fa-circle-o"></i>Compartir</a></li> 

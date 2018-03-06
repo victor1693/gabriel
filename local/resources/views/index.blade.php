@@ -128,11 +128,28 @@
                                             Opin más votados
                                         </span>
                                         <table class="table table-condensed .table-hover" style="margin-top: 6px;">
+
                                             <tbody>
                                             <?php
+
                                             $contador=0;
                                                 foreach ($topopin as $key) {
                                                     $contador++;
+                                                $publica="";
+                                                $su="";
+                                                $fechaFin="";
+                                                if($key->publica)
+                                                {
+                                                    $publica='<img src="local/resources/views/img/open.png" style="width:12px;margin-left:8px;">';
+                                                }
+                                                 if($key->seleccionUnica)
+                                                {
+                                                    $su='<i style="margin-left:10px;" class="fa  fa-check-square"></i>';
+                                                }
+                                                 if($key->fechaFin!=null)
+                                                {
+                                                    $fechaFin='<i style="color:#8e0015;margin-right:5px;" class="fa fa-flag"></i> '.$key->fechaFin.'';
+                                                }
                                                 echo '<tr>
                                                     <td style="width: 20px;padding-top: 15px;">
                                                         '.$contador.'
@@ -145,19 +162,26 @@
                                                         </div>
                                                         <div class="text-left" style="font-size: 12px;padding-top: 5px;">
                                                             <span> 
-                                                            '.$key->fechaCreacion.' 
+                                                                <i style="margin-right:5px;color:#006804;" class="fa fa-flag"></i> '.$key->fechaCreacion.' 
                                                             </span>
                                                              <span> 
-                                                                <span style="padding-left: 15px;">
-                                                                   <i class="fa fa-fw fa-heart"><span style="margin-left:5px;">'.$key->numeroFavoritos.'</span></i>
+                                                                <span style="padding-left: 10px;">
+                                                                   <i id="votados_'.$key->idEncuesta.'" class="fa fa-fw fa-heart"><span style="margin-left:5px;color:#000;">'.$key->numeroFavoritos.'</span></i>
                                                                 </span>
-                                                                <span style="padding-left: 20px;">
+                                                                <span style="padding-left: 15px;">
                                                                   <i class="ion ion-stats-bars"><span style="margin-left:5px;">'.$key->numeroVotantes.'</span></i>
                                                                 </span>
+                                                                <span>'.$su.'</span>
+                                                                '.$publica.'
+
                                                             </span> 
-                                                        </div>
+                                                        </div> 
+                                                         <div class="text-left" style="font-size: 12px;">
+                                                               '.$fechaFin.'
+                                                        </div> 
                                                     </td>
                                                 </tr>'; 
+
                                                 }
                                             ?>
                                                 
@@ -305,7 +329,9 @@ function validar_favoritos()
             dataType:"json",   
             success: function(data)  
             { 
+
                   $.each(data, function(i, datos) {
+                    $("#votados_"+datos['idEncuesta']).addClass("favoritoUser");
                     $("#"+datos['idEncuesta']).addClass("favoritoUser");                        
                   });
             }
@@ -358,7 +384,7 @@ function validar_favoritos()
                         carpeta="0";
                         imagen="0.png";
                         }
-                     columna=columna+'<tr> <td style="width: 20px;padding-left: 5px;"> <img class="img-circle" style="width:30px;height:30px;" src="local/resources/views/uploads/encuestas/'+carpeta+'/'+imagen+'"> </td> <td> <div class="text-left" style="font-size: 12px;"> <strong> '+datos["textoPregunta"]+'</strong> </div> <div class="text-left" style="font-size: 12px;padding-top: 2px;"> <span> '+baderaVerde+datos["fechaCreacion"]+' '+fechaFin+'   '+seleccionUnica+' <span style="padding-left: 15px;"> <i id="'+datos["idEncuesta"]+'" class="fa fa-fw fa-heart"><span  style="margin-left:5px;color:#000;">'+datos["favorito"]+'</span></i> </span> <span style="padding-left: 20px;"> <i class="ion ion-stats-bars"><span style="margin-left:5px;">'+datos["numeroVotantes"]+'</span></i></span> <i style="margin-left:10px;"  class="fa fa-group "></i> </span> <a class="pull-right" href="'+datos["idUsuarioPropietario"]+'" style="text-decoration: underline;"> <strong> '+usuario+' </strong> </a> </div> </td> </tr>';    
+                     columna=columna+'<tr> <td style="width: 30px;padding-left: 5px;"> <img class="img-circle" style="width:30px;" src="local/resources/views/uploads/encuestas/'+carpeta+'/'+imagen+'"> </td> <td> <div class="text-left" style="font-size: 12px;"> <strong> '+datos["textoPregunta"]+'</strong> </div> <div class="text-left" style="font-size: 12px;padding-top: 2px;"> <span> '+baderaVerde+datos["fechaCreacion"]+' '+seleccionUnica+' <span style="padding-left: 15px;margin-top"> <i id="'+datos["idEncuesta"]+'" class="fa fa-fw fa-heart"><span  style="margin-left:5px;color:#000;">'+datos["favorito"]+'</span></i> </span> <span style="padding-left: 20px;"> <i class="ion ion-stats-bars"><span style="margin-left:5px;">'+datos["numeroVotantes"]+'</span></i></span> <i style="margin-left:10px;"> <img src="local/resources/views/img/open.png" style="width:15px;"> </i> </span> <a class="pull-right" href="'+datos["idUsuarioPropietario"]+'" style="text-decoration: underline;"> <strong> '+usuario+' </strong> </a> <br/>'+fechaFin+'</div> </td> </tr>';    
                 });
                 $("#tabla_opins").html("");
                 $("#tabla_opins").html(columna);

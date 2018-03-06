@@ -17,7 +17,7 @@ class con_register extends Controller {
 	public function index()
 	{
 
-		$sql="SELECT * FROM pais";
+		$sql="SELECT * FROM Pais";
 			try {
                  $datos=DB::select($sql);  
                  $vista=View::make('register');
@@ -29,12 +29,12 @@ class con_register extends Controller {
 	} 	
  	public function token($id)
 	{
-		$sql="SELECT token,count(token) as contador FROM usuario  WHERE token='".$id."'";
+		$sql="SELECT token,count(token) as contador FROM Usuario  WHERE token='".$id."'";
 			try {
                  $datos=DB::select($sql);  
                  if($datos[0]->contador)
 		          {	
-		          	 $sql="SELECT estado as contador FROM usuario  WHERE token='".$id."'";
+		          	 $sql="SELECT estado as contador FROM Usuario  WHERE token='".$id."'";
 		             $datos=DB::select($sql);
 		             if($datos[0]->contador)
 		          	 {
@@ -42,7 +42,7 @@ class con_register extends Controller {
 		          	 }
 		          	 else
 		          	 {
-	 					 $sql="UPDATE usuario SET estado=1 WHERE  token='".$id."'";
+	 					 $sql="UPDATE Usuario SET estado=1 WHERE  token='".$id."'";
 			             DB::update($sql);
 			             return Redirect('token?token=true'); 
 		          	 }
@@ -77,13 +77,13 @@ class con_register extends Controller {
 		else
 		{
 
-			$sql="SELECT email, count(email) as contador FROM usuario WHERE email='".$correo."'";
+			$sql="SELECT email, count(email) as contador FROM Usuario WHERE email='".$correo."'";
 			$datos=DB::select($sql); 
 			if($datos[0]->contador)
 			{
 				return Redirect('register?validate=correo');
 			}
-			$sql="SELECT login, count(login) as contador FROM usuario WHERE login='".$usuario."'";
+			$sql="SELECT login, count(login) as contador FROM Usuario WHERE login='".$usuario."'";
 			$datos=DB::select($sql); 
 			if($datos[0]->contador)
 			{
@@ -93,7 +93,7 @@ class con_register extends Controller {
 			{
 				$tokken=$this->tokken(30);
 				$sql="
-				INSERT INTO usuario 
+				INSERT INTO Usuario 
 				(idUsuario,email,isoPais,genero,fechaNacimiento,login,fechaRegistro,estado,token,clave)
 				VALUES(null,'".$correo."','".$pais."','".$sexo."','".$fecha."','".$usuario."',null,'0','".$tokken."','".hash('sha256',$clave1)."');
 				"; 

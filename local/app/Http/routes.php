@@ -15,9 +15,12 @@ Route::get('clean', function (){return view('clean');});
 
 //Rutas con privilegios
 Route::group(['middleware' =>'login'], function () { 
+
 Route::get('inicio', 'con_home@index'); 
 Route::get('logout', 'con_login@salir');
 Route::post('listaropins', 'con_home@ajax_listar_opins');
 Route::post('validaropin', 'con_home@validar_votados');
+Route::get('opins', 'con_opins@index');
+Route::get('profile', function (){return view('profile');});
 });
  
