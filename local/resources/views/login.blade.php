@@ -9,11 +9,21 @@
                 <?php include('local/resources/views/includes/referencias_top.html');?>
             </meta>
         </meta>
+		<!-- scripts -->
     </head>
-    <body class="hold-transition login-page" style="background-image: url('https://www.ibm.com/blogs/business-analytics/wp-content/uploads/2017/02/data-analytics-too-much-data.jpg');">
-        <div class="login-box">
+	
+
+	
+    <!-- <body class="hold-transition login-page" style="background-image: url('https://www.ibm.com/blogs/business-analytics/wp-content/uploads/2017/02/data-analytics-too-much-data.jpg');"> -->
+    <body class="hold-transition login-page" style="">
+	<div id="particles-js" style="background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #19b08c), color-stop(70%, #26819f)) !important";>     
+
+		
+		<div class="login-box mylogin">
+			<!-- particles.js container -->
+	
             <div class="register-logo">
-                <a href="iniciar">
+                <a href="iniciar" style="color: white;">
                     <b>
                         Opinion
                     </b>
@@ -21,7 +31,7 @@
                 </a>
             </div>
             <!-- /.login-logo -->
-            <div class="login-box-body">
+            <div class="login-box-body box-style">
                 <p class="login-box-msg">
                     Completa los datos para iniciar sesión
                 </p>
@@ -59,17 +69,28 @@
             <!-- /.login-box-body -->
             <div id="ohsnap">
             </div>
+						
+
+			<!-- stats - count particles 
+			<div class="count-particles">
+			  <span class="js-count-particles">--</span> particles
+			</div>		-->   
         </div>
-        <!-- /.login-box -->
+		
+   </div>
+		
+		
+		
+		<!-- /.login-box -->
         <!-- jQuery 3.1.1 -->
         <?php include('local/resources/views/includes/referencias_down.php');?>
         <script type="text/javascript">
             function enviar_formulario()
-  {
-    if($("#correo").val()==""){ohSnap('Debe colorcar su correo.', {color: 'orange '});$('#correo').focus();}
-    else if($("#pass").val()==""){ohSnap('Debe colorcar su clave.', {color: 'orange '});$('#pass').focus();}
-    else{$("#formulario").submit();}
-  }
+				  {
+					if($("#correo").val()==""){ohSnap('Debe colorcar su correo.', {color: 'orange '});$('#correo').focus();}
+					else if($("#pass").val()==""){ohSnap('Debe colorcar su clave.', {color: 'orange '});$('#pass').focus();}
+					else{$("#formulario").submit();}
+				  }
         </script>
         >
         <?php

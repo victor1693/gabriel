@@ -1,5 +1,8 @@
 <!-- ./wrapper -->
 
+<!-- <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> -->
+<script src="../particles.js"></script>
+<script src="/gabriel/local/resources/views/dist/js/particles2.js"></script> 
 <!-- jQuery 3.1.1 -->
 <script src="/gabriel/local/resources/views/plugins/jQuery/jquery-3.1.1.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -37,5 +40,6 @@
 <!-- AdminLTE for demo purposes -->
 <script src="/gabriel/local/resources/views/dist/js/demo.js"></script>
 <script src="https://rawgithub.com/justindomingue/ohSnap/master/ohsnap.js"></script>
-<script type="text/javascript" src="https://sweetalert.js.org/assets/sweetalert/sweetalert.min.js">	
-</script>
+<script type="text/javascript" src="https://sweetalert.js.org/assets/sweetalert/sweetalert.min.js">	</script>
+<script src="/gabriel/local/resources/views/dist/js/particles.js"></script> 
+
