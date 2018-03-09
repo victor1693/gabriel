@@ -44,13 +44,13 @@ class con_home extends Controller {
 			} 
 
 			$sql="SELECT  t1.creadaPorAdministrador,numeroFavoritos as favorito,numeroVotantes, t1.nombreFoto as foto, t3.login, t1.idUsuarioPropietario, t1.idEncuesta,date_format(t1.fechaCreacion,'%d-%m-%Y') as fechaCreacion ,t2.textoPregunta,t1.idTematica,t1.fechaFin,t1.seleccionUnica from Encuesta t1
-			LEFT JOIN PreguntaEncuesta t2 ON t1.idEncuesta = t2.idEncuesta
-			LEFT JOIN Usuario t3 ON t1.idUsuarioPropietario = t3.idUsuario
-			WHERE  t2.textoPregunta like '%".$_POST['fbuscar']."%'  AND t1.publica = 1 AND t1.bloqueada = 0 ".$categoria."
-			".$order."
-			";
+				LEFT JOIN PreguntaEncuesta t2 ON t1.idEncuesta = t2.idEncuesta
+				LEFT JOIN Usuario t3 ON t1.idUsuarioPropietario = t3.idUsuario
+				WHERE  t2.textoPregunta like '%".$_POST['fbuscar']."%'  AND t1.publica = 1 AND t1.bloqueada = 0 ".$categoria."
+				".$order."
+				";
 
-		 	 $datos=DB::select($sql);
+		 	$datos=DB::select($sql);
 			echo json_encode($datos);
 	}
 

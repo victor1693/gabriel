@@ -9,7 +9,7 @@ Route::get('token', function (){return view('error.token');});
 Route::get('terminos', function (){return view('terminos');});
 Route::post('login', 'con_login@create');
 Route::post('registro', 'con_register@create'); 
-
+Route::post('recuperarc', 'con_login@recuperar'); 
 //Rutas Gabriel
 Route::get('clean', function (){return view('clean');});
 

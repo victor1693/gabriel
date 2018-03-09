@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use DB;
 use Illuminate\Http\Request;
 use View;
+use Mail;
 class con_login extends Controller {
 
 	/**
@@ -14,6 +15,47 @@ class con_login extends Controller {
 	public function index()
 	{
 		return View('login');
+	}
+
+	public function recuperar()
+	{
+		 $sql="SELECT *,count(idUsuario) as contador FROM Usuario WHERE email='".$_POST['correo']."'";
+		 	try {
+                 $datos=DB::select($sql);
+                 if($datos[0]->contador)
+          		 {
+          		 	if($datos[0]->estado==0)
+          		 	{
+          		 		echo 0; // el usuario esta inactivo 
+          		 	}
+          		 	else
+          		 	{
+          		 		 $aleratorio=rand(900000,999999);
+          		 		 $data=[
+						'name'=>$datos[0]->login,
+						'clave'=>$aleratorio
+						];
+						try {
+							$sql="UPDATE Usuario SET clave='".hash('sha256',$aleratorio)."'";
+							DB::update($sql);  
+							Mail::send("email.recuperar", $data, function ($message){
+							$message->to($_POST['correo']);
+							$message->from("no-reply@opinion-app.com");
+						    $message->subject("no-reply@opinion-app.com"); 
+							});
+							echo 1;
+						} catch (Exception $e) {
+							echo 4;
+						}
+          		 	}
+          		 }
+          		 else
+          		 {
+          		 	echo 2; //el usuario no esta registrado
+          		 }
+            } catch (QueryException $e) {
+            	return Redirect('error');
+            } 
 	}
 
 	/**

@@ -1,75 +1,69 @@
 /* ---- reset ---- */
 
 /* body { */
-  /* margin: 0; */
-  /* font:normal 75% Arial, Helvetica, sans-serif; */
+
+/* margin: 0; */
+
+/* font:normal 75% Arial, Helvetica, sans-serif; */
+
 /* } */
 
 canvas {
-  display: block;
-  vertical-align: bottom;
+    display: block;
+    vertical-align: bottom;
 }
-
 /* ---- particles.js container ---- */
 
 #particles-js {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: #b61924;
-  background-image: url("");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: 50% 50%;
-  z-index: 99; 
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #b61924;
+    background-image: url("");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+    z-index: 99;
 }
-
 /* ---- stats.js ---- */
 
-.count-particles{
-  background: #000022;
-  position: absolute;
-  top: 48px;
-  left: 0;
-  width: 80px;
-  color: #13E8E9;
-  font-size: .8em;
-  text-align: left;
-  text-indent: 4px;
-  line-height: 14px;
-  padding-bottom: 2px;
-  font-family: Helvetica, Arial, sans-serif;
-  font-weight: bold;
+.count-particles {
+    background: #000022;
+    position: absolute;
+    top: 48px;
+    left: 0;
+    width: 80px;
+    color: #13E8E9;
+    font-size: .8em;
+    text-align: left;
+    text-indent: 4px;
+    line-height: 14px;
+    padding-bottom: 2px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
 }
-
-.js-count-particles{
-  font-size: 1.1em;
+.js-count-particles {
+    font-size: 1.1em;
 }
-
-#stats,
-.count-particles{
-  -webkit-user-select: none;
+#stats, .count-particles {
+    -webkit-user-select: none;
 }
-
-#stats{
-  border-radius: 3px 3px 0 0;
-  overflow: hidden;
+#stats {
+    border-radius: 3px 3px 0 0;
+    overflow: hidden;
 }
-
-.count-particles{
-  border-radius: 0 0 3px 3px;
+.count-particles {
+    border-radius: 0 0 3px 3px;
 }
-
-.mylogin{
-	position: absolute;
+.mylogin {
     top: 100px;
     margin: auto;
     left: 25%;
     right: 25%;
+    z-index: 1;
 }
-
-.box-style{
-	border-radius: 10px;
+.box-style {
+    border-radius: 10px;
     /* box-shadow: 0px 0px 19px 2px #aaa; */
     box-shadow: 0px 0px 20px 3px #444;
     margin: 10px;

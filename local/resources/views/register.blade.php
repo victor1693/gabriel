@@ -58,7 +58,7 @@
       <div class="row">         
        <div class="col-xs-12" style="padding-top: 0px;"> 
           <input name="politicas" type="checkbox" class="form-check-input" id="politicas" style="margin-top: -30px;margin-bottom: 15px;">
-          <span style="margin-top: -10px;">Acepto las <a href="terminos">politicas de opinionApp</a></span> 
+          <span style="margin-top: -10px;">Acepto las <a href="http://www.opinion-app.com/politicadeprivacidad.pdf" target="_blank">politicas de opinionApp</a></span> 
        </div>
         <div class="col-xs-12 text-center">
           <a onClick="validar_formulario()" class="btn btn-primary btn-block btn-flat">Registrar</a>
