@@ -18,7 +18,7 @@
     <!-- <body class="hold-transition login-page" style="background-image: url('https://www.ibm.com/blogs/business-analytics/wp-content/uploads/2017/02/data-analytics-too-much-data.jpg');"> -->
     <body class="hold-transition login-page" style="">
 
-	<div id="particles-js" style="background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #19b08c), color-stop(70%, #26819f)) !important";>  
+	<div id="particles-js" style="background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #19b08c), color-stop(70%, #26819f)) !important; z-index: -1 !important;"></div>  
 		<div class="login-box mylogin">
 			<!-- particles.js container --> 
             <div class="register-logo">
@@ -66,7 +66,7 @@
 
                             <div class="col-xs-12 text-center" style="padding-top: 10px;border-top: 1px solid #cecece;margin-top: 5px;">
                                 <a class="" href="mailto:victor.fernandez.18@hotmail.com?subject=problema para iniciar sesión" style="margin-top: 15px;color: #000;">
-                                   ¿Tienes problemas para iniciar sesión?
+                                   ¿Tienes problemas para entrar? Cuéntanoslo.
                                 </a> 
                             </div>
                             
@@ -81,7 +81,7 @@
             </div>
 			   
         </div> 
-   </div>
+   <!--</div>-->
 		
  
 		

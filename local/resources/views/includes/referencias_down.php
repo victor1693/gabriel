@@ -1,7 +1,7 @@
 <!-- ./wrapper -->
 
 <!-- <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> -->
-<script src="../particles.js"></script>
+<!--<script src="../particles.js"></script>-->
 <script src="local/resources/views/dist/js/particles2.js"></script> 
 <!-- jQuery 3.1.1 -->
 <script src="local/resources/views/plugins/jQuery/jquery-3.1.1.min.js"></script>

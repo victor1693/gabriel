@@ -34,12 +34,16 @@
         <input name="correo" id="correo" type="email" class="form-control" placeholder="Correo">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
+      
+     
       <div class="form-group has-feedback">
+       
+      
         <select id="pais" name="pais" class="form-control select2" style="padding-bottom: 10px;">
-          <option value="">País</option>
+          <option value="" >País</option>
           <?php 
             foreach ($datos as $key ) {
-             echo "<option value='".$key->iso."'>".$key->nombrePais."</option>";
+             echo "<option value='".$key->iso."''>".$key->nombrePais."</option>";
             }
           ?>
         </select> 
