@@ -13,7 +13,7 @@
 <p>Si es correcto y desea confirmar el alta, pulse el siguiente enlace, válido durante 7 días:</p>
 
 <!--<p><a href="http://localhost/gabriel/tokken/{{$token}}">Activar cuenta</a></p>-->
-<p><a href="ingvictorfernandez.com.ve/gabriel/tokken/{{$token}}">Activar cuenta</a></p>
+<p><a href="http://opinion-app.com/user/tokken/{{$token}}">Activar cuenta</a></p>
 
 <p>Por el contrario, si desea anularla y borrar sus datos, pulse el siguiente enlace:</p>
 

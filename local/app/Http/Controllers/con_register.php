@@ -20,7 +20,7 @@ class con_register extends Controller {
 		$sql="SELECT * FROM Pais";
 			try {
                  $datos=DB::select($sql);  
-                 $vista=View::make('register');
+                 $vista=View::make('register2');
                  $vista->datos=$datos;
                  return $vista;
             } catch (QueryException $e) {
@@ -79,10 +79,25 @@ class con_register extends Controller {
 
 			$sql="SELECT email, count(email) as contador FROM Usuario WHERE email='".$correo."'";
 			$datos=DB::select($sql); 
+			$id_pais=0;
 			if($datos[0]->contador)
 			{
 				return Redirect('register?validate=correo');
 			}
+
+			$sql="SELECT iso, count(idPais) as contador FROM Pais WHERE nombrePais='".ucfirst($pais)."'";
+			 
+			$datos=DB::select($sql); 
+			if($datos[0]->contador != 1)
+			{
+				return Redirect('register?validate=pais');
+			}
+			else
+			{
+				$id_pais=$datos[0]->iso;
+			}
+
+
 			$sql="SELECT login, count(login) as contador FROM Usuario WHERE login='".$usuario."'";
 			$datos=DB::select($sql); 
 			if($datos[0]->contador)
@@ -95,7 +110,7 @@ class con_register extends Controller {
 				$sql="
 				INSERT INTO Usuario 
 				(idUsuario,email,isoPais,genero,fechaNacimiento,login,fechaRegistro,estado,token,clave)
-				VALUES(null,'".$correo."','".$pais."','".$sexo."','".$fecha."','".$usuario."',null,'0','".$tokken."','".hash('sha256',$clave1)."');
+				VALUES(null,'".$correo."','".$id_pais."','".$sexo."','".$fecha."','".$usuario."',null,'0','".$tokken."','".hash('sha256',$clave1)."');
 				"; 
 					$data=[
 					'name'=>$usuario,
@@ -109,9 +124,9 @@ class con_register extends Controller {
 					try {
 						DB::insert($sql);  
 						Mail::send("email.confirmacion", $data, function ($message){
-						$message->to($_POST["correo"]);
-						$message->from("no-reply@opinion-app.com");
-					    $message->subject("no-reply@opinion-app.com"); 
+						$message->to($_POST['correo']);
+							$message->from("no-reply@opinion-app.com");
+						    $message->subject("no-reply@opinion-app.com");  
 						});
 						return Redirect('register?info=true');
 					} catch (Exception $e) {
