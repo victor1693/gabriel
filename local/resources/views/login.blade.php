@@ -1,3 +1,6 @@
+<?php
+$mi_tokken=csrf_token();
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -8,7 +11,7 @@
                 </title>
                 <?php include('local/resources/views/includes/referencias_top.html');?>
 
-                <meta name="csrf-token" content="<?php echo csrf_token(); ?>">
+                <meta name="csrf-token" content="<?php echo $mi_tokken;?>">
     
 		<!-- scripts -->
     </head>
@@ -35,7 +38,7 @@
                     Completa los datos para iniciar sesión
                 </p>
                 <form action="login" id="formulario_login" method="post">
-                    <input name="_token" type="hidden" value="" id="my_token">
+                    <input name="_token" type="hidden" value="<?php echo $mi_tokken;?>" id="my_token">
                         <div class="form-group has-feedback">
                             <input class="form-control" id="correo" name="correo" placeholder="Correo o usuario" type="text">
                                 <span class="glyphicon glyphicon-envelope form-control-feedback">
