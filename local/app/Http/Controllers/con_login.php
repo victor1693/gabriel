@@ -36,7 +36,7 @@ class con_login extends Controller {
 						'clave'=>$aleratorio
 						];
 						try {
-							$sql="UPDATE Usuario SET clave='".hash('sha256',$aleratorio)."'";
+							$sql="UPDATE Usuario SET clave='".hash('sha256',$aleratorio)."' WHERE login ='".$datos[0]->login."'";
 							DB::update($sql);  
 							Mail::send("email.recuperar", $data, function ($message){
 							$message->to($_POST['correo']);
@@ -73,12 +73,13 @@ class con_login extends Controller {
 		 SELECT idUsuario, login, email, clave,COUNT(idUsuario) AS contador 
 		 FROM Usuario 
 		 WHERE (email = '".$_POST['correo']."' OR  login = '".$_POST['correo']."') AND clave ='".hash('sha256', $_POST['pass'])."'";
- 
+		 
 		 	try {
                  $datos=DB::select($sql);
             } catch (QueryException $e) {
             	return Redirect('error');
             } 
+
           if($datos[0]->contador)
           {
 
@@ -116,7 +117,7 @@ class con_login extends Controller {
 			 WHERE  login = '".$_POST['correo']."' AND clave ='".hash('sha256', $_POST['pass'])."'";
 			 
 		 	try {
-                 $datos=DB::select($sql); 
+                 $datos=DB::select($sql);
                   if($datos[0]->contador)
 			          { 
 			          	 $sql="

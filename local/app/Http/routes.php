@@ -15,7 +15,8 @@ Route::get('clean', function (){return view('clean');});
 
 //Rutas con privilegios
 Route::group(['middleware' =>'login'], function () { 
-
+Route::get('myopins', 'con_home@index_myopins'); 
+Route::get('favorites', 'con_home@index_favorites'); 
 Route::get('inicio', 'con_home@index'); 
 Route::get('logout', 'con_login@salir');
 Route::post('listaropins', 'con_home@ajax_listar_opins');

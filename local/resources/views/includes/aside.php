@@ -28,13 +28,13 @@
         </li> 
 
          <li>
-          <a href="saludosgabriel">
+          <a href="myopins">
             <i class="fa fa-area-chart"></i> <span>My Opin</span> 
           </a>
         </li> 
 
          <li>
-          <a href="#">
+          <a href="favorites">
             <i class="fa fa-heart"></i> <span>Favoritos</span> 
           </a>
         </li> 

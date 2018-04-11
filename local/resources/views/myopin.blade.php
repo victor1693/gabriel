@@ -136,7 +136,7 @@
                                     </div>
                                     <div class="col-sm-3 sp text-center">
                                         <span style="font-size: 24px;">
-                                            Opins Públicos
+                                            Mis opins
                                         </span>
                                     </div>
                                     <div class="col-sm-3 sp text-center">
@@ -401,7 +401,7 @@ function validar_favoritos()
             url: 'listaropins',
             type: 'post',
             dataType:"json", 
-            data:{fbuscar:buscar,fvotos:votos,ffecha:fecha,ffiltro:filtro,fcategoria:categoria,vista:1},
+            data:{fbuscar:buscar,fvotos:votos,ffecha:fecha,ffiltro:filtro,fcategoria:categoria,vista:2},
             success: function(data)  
             { 
              columna="";

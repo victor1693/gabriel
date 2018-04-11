@@ -19,7 +19,7 @@ class con_home extends Controller {
 	{
 		
 		$order=""; 
-	 
+	 	$sql="";
 			if($_POST['ffiltro']=="votos")
 			{
 				if($_POST['fvotos']==1){$order=" order by t1.numeroVotantes desc";}
@@ -43,53 +43,63 @@ class con_home extends Controller {
 				 $categoria="";
 			} 
 
-			$sql="SELECT  t1.creadaPorAdministrador,numeroFavoritos as favorito,numeroVotantes, t1.nombreFoto as foto, t3.login, t1.idUsuarioPropietario, t1.idEncuesta,date_format(t1.fechaCreacion,'%d-%m-%Y') as fechaCreacion ,t2.textoPregunta,t1.idTematica,t1.fechaFin,t1.seleccionUnica from Encuesta t1
+			if($_POST["vista"]==1)
+			{
+				$sql="SELECT  t1.creadaPorAdministrador,numeroFavoritos as favorito,numeroVotantes, t1.nombreFoto as foto, t3.login, t1.idUsuarioPropietario, t1.idEncuesta,date_format(t1.fechaCreacion,'%d-%m-%Y') as fechaCreacion ,t2.textoPregunta,t1.idTematica,t1.fechaFin,t1.seleccionUnica from Encuesta t1
 				LEFT JOIN PreguntaEncuesta t2 ON t1.idEncuesta = t2.idEncuesta
 				LEFT JOIN Usuario t3 ON t1.idUsuarioPropietario = t3.idUsuario
 				WHERE  t2.textoPregunta like '%".$_POST['fbuscar']."%'  AND t1.publica = 1 AND t1.bloqueada = 0 ".$categoria."
 				".$order."
 				";
-
+			}
+			else if($_POST["vista"]==2)
+			{
+				$sql="SELECT  t1.creadaPorAdministrador,numeroFavoritos as favorito,numeroVotantes, t1.nombreFoto as foto, t3.login, t1.idUsuarioPropietario, t1.idEncuesta,date_format(t1.fechaCreacion,'%d-%m-%Y') as fechaCreacion ,t2.textoPregunta,t1.idTematica,t1.fechaFin,t1.seleccionUnica from Encuesta t1
+				LEFT JOIN PreguntaEncuesta t2 ON t1.idEncuesta = t2.idEncuesta
+				LEFT JOIN Usuario t3 ON t1.idUsuarioPropietario = t3.idUsuario
+				WHERE  t2.textoPregunta like '%".$_POST['fbuscar']."%'  AND t1.publica = 1 AND t1.bloqueada = 0 and t1.idUsuarioPropietario=".session()->get("id")." ".$categoria."
+				".$order."
+				";
+			}
+			 
 		 	$datos=DB::select($sql);
 			echo json_encode($datos);
 	}
 
 	public function index()
 	{
-		try {
+		try { 
 			$vista=View::make('index');
-			$sql="SELECT count(*) as respuesta FROM SeleccionRespuestaEncuesta";
-			$datos=DB::select($sql);
-			$vista->respuesta=$datos;  
-
-			$sql="SELECT numeroVotantes as masvotado FROM Encuesta order BY numeroVotantes desc limit 0,1";
-			$datos=DB::select($sql);
-			$vista->masvotado=$datos;
-
-			$sql="SELECT * FROM Tematica order BY titulo asc ";
-			$datos=DB::select($sql);
-			$vista->tematica=$datos;
-
-			$sql="SELECT count( t1.idEncuesta) as opins,t1.idUsuarioPropietario,if(t2.login is null,'Administrador',t2.login) as usuario,sum(t1.numeroVotantes) as total,if(t3.valor is null,0,t3.valor) puntos,t4.textoPregunta as pregunta FROM Encuesta t1
-				LEFT JOIN Usuario t2 ON t2.idUsuario = t1.idUsuarioPropietario
-				LEFT JOIN Puntuacion t3 ON t3.idUsuario = t1.idUsuarioPropietario
-				LEFT JOIN PreguntaEncuesta t4 ON t4.idEncuesta = t1.idEncuesta
-				GROUP BY t1.idUsuarioPropietario limit 0,5";
-			$datos=DB::select($sql);
-			$vista->user_top=$datos;
-
-			$sql="SELECT t1.numeroFavoritos, if(t4.login is null,'Administrador',t4.login) as login,t4.idUsuario, date_format(t1.fechaCreacion,'%d-%m-%Y') as fechaCreacion, t1.idEncuesta , t2.textoPregunta,t1.numeroVotantes, t1.fechaFin,t1.seleccionUnica,t1.publica FROM `Encuesta` t1
-			LEFT JOIN PreguntaEncuesta t2 ON t1.idEncuesta = t2.idPreguntaEncuesta
-			LEFT JOIN Usuario t4 ON t1.idUsuarioPropietario = t4.idUsuario
-			order by t1.numeroVotantes desc LIMIT 0,5";
-			$datos=DB::select($sql);
-			$vista->topopin=$datos;   
-                 return $vista;
+			include("local/resources/views/queries/sql_opinions.php");            
+            return $vista;
 		} catch (Exception $e) {
 			return Redirect('error'); 
 		}
 	}
 
+	public function index_myopins()
+	{
+		try {
+
+			$vista=View::make('myopin');
+			include("local/resources/views/queries/sql_opinions.php");            
+            return $vista;
+		} catch (Exception $e) {
+			return Redirect('error'); 
+		}
+	}
+
+		public function index_favorites()
+	{
+		try {
+
+			$vista=View::make('favorites');
+			include("local/resources/views/queries/sql_opinions.php");            
+            return $vista;
+		} catch (Exception $e) {
+			return Redirect('error'); 
+		}
+	}
 	/**
 	 * Show the form for creating a new resource.
 	 *

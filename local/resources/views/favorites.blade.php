@@ -136,7 +136,7 @@
                                     </div>
                                     <div class="col-sm-3 sp text-center">
                                         <span style="font-size: 24px;">
-                                            Opins Públicos
+                                            Mis favoritos
                                         </span>
                                     </div>
                                     <div class="col-sm-3 sp text-center">
@@ -285,8 +285,11 @@
 <style type="text/css">
     .favoritoUser
     {
-        color: #c12600;
-         
+        color: #c12600;         
+    }
+      .ocultar
+    {
+       display: none;      
     }
 </style>>
 <!-- /.content -->
@@ -381,7 +384,8 @@ function validar_favoritos()
 
                   $.each(data, function(i, datos) {
                     $("#votados_"+datos['idEncuesta']).addClass("favoritoUser");
-                    $("#"+datos['idEncuesta']).addClass("favoritoUser");                        
+                    $("#"+datos['idEncuesta']).addClass("favoritoUser");
+                    $("#columna_"+datos['idEncuesta']).removeClass("ocultar");                            
                   });
             }
                
@@ -433,7 +437,7 @@ function validar_favoritos()
                         carpeta="0";
                         imagen="0.png";
                         }
-                     columna=columna+'<tr> <td style="width: 30px;padding-left: 5px;"> <img class="img-circle" style="width:30px;" src="local/resources/views/uploads/encuestas/'+carpeta+'/'+imagen+'"> </td> <td> <div class="text-left" style="font-size: 12px;"> <strong> '+datos["textoPregunta"]+'</strong> </div> <div class="text-left" style="font-size: 12px;padding-top: 2px;"> <span> '+baderaVerde+datos["fechaCreacion"]+' '+seleccionUnica+' <span style="padding-left: 15px;margin-top"> <i id="'+datos["idEncuesta"]+'" class="fa fa-fw fa-heart"><span  style="margin-left:5px;color:#000;">'+datos["favorito"]+'</span></i> </span> <span style="padding-left: 20px;"> <i class="ion ion-stats-bars"><span style="margin-left:5px;">'+datos["numeroVotantes"]+'</span></i></span> <i style="margin-left:10px;"> <img src="local/resources/views/img/open.png" style="width:15px;"> </i> </span> <a class="pull-right" href="'+datos["idUsuarioPropietario"]+'" style="text-decoration: underline;"> <strong> '+usuario+' </strong> </a> <br/>'+fechaFin+'</div> </td> </tr>';    
+                     columna=columna+'<tr class="ocultar" id="columna_'+datos["idEncuesta"]+'"> <td style="width: 30px;padding-left: 5px;"> <img class="img-circle" style="width:30px;" src="local/resources/views/uploads/encuestas/'+carpeta+'/'+imagen+'"> </td> <td> <div class="text-left" style="font-size: 12px;"> <strong> '+datos["textoPregunta"]+'</strong> </div> <div class="text-left" style="font-size: 12px;padding-top: 2px;"> <span> '+baderaVerde+datos["fechaCreacion"]+' '+seleccionUnica+' <span style="padding-left: 15px;margin-top"> <i id="'+datos["idEncuesta"]+'" class="fa fa-fw fa-heart"><span  style="margin-left:5px;color:#000;">'+datos["favorito"]+'</span></i> </span> <span style="padding-left: 20px;"> <i class="ion ion-stats-bars"><span style="margin-left:5px;">'+datos["numeroVotantes"]+'</span></i></span> <i style="margin-left:10px;"> <img src="local/resources/views/img/open.png" style="width:15px;"> </i> </span> <a class="pull-right" href="'+datos["idUsuarioPropietario"]+'" style="text-decoration: underline;"> <strong> '+usuario+' </strong> </a> <br/>'+fechaFin+'</div> </td> </tr>';    
                 });
                 $("#tabla_opins").html("");
                 $("#tabla_opins").html(columna);
@@ -443,9 +447,7 @@ function validar_favoritos()
         })
     }
     
-</script>
- 
-
+</script> 
     </body>
 </html>
 
