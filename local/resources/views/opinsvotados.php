@@ -13,6 +13,7 @@
                 </meta>
             </meta>
         </meta>
+        <?php include("local/resources/views/estilos/estilos.php");?>
         <style type="text/css">
           .circulo {
                width: 24px;
@@ -64,12 +65,21 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
             <div class="box-body">
             <div class="col-md-1 col-sm-0"></div>
               <div class="col-md-10 col-sm-12 text-center sp " >
+               <?php 
+                  $foto="0.png";
+                  $carpeta="0";
+                 if($infouno[0]->nombreFoto!="")
+                 {
+                    $foto=$infouno[0]->nombreFoto;
+                    $carpeta=$infouno[0]->idEncuesta;
+                 } 
+               ?>
               <div class="col-sm-12 sp sombra-interna" style="padding-top: 50px;padding-bottom: 50px; border-radius: 10px;">
-                  <img class="sombra" src="local/resources/views/img/perfil.jpg" style="border-radius: 10px; width: 80%;">
+                  <img class="sombra" src="http://opinion-app.com/upload/fotos/encuestas/<?php echo $carpeta;?>/<?php echo $foto;?>" style="border-radius: 10px; width: 80%;">
 
                   <h3><?php echo $infouno[0]->textoPregunta;?></h3>
                    <div class="col-xs-12 " style="padding: 0px;">
-                        <div class="col-xs-4 text-left">
+                        <div class="col-xs-4 text-center">
                            <li style="list-style: none;">
                               <li style="list-style: none;">
                               <img src="local/resources/views/img/open.png" alt="User Image">
@@ -102,16 +112,16 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
                           </li>
                        
                        </div>   
-                       <div class="col-xs-4 text-right">
+                       <div class="col-xs-4 text-center">
                            <li style="list-style: none;">
-                                  <p style="font-size: 18px;color: #fff;" class="circulo text-center pull-right"><?php echo $infouno[0]->seleccionUnica;?> </p> 
-                                  <a class="users-list-name pull-right" href="#" style="margin-top: 24px;margin-right: -25px;">Posibles respuestas</a> 
+                                  <div style="font-size: 18px;color: #fff;margin:0 auto;" class="circulo "><?php echo $infouno[0]->seleccionUnica;?></div> 
+                                  <a class="users-list-name" href="#">Posibles respuestas</a> 
                           </li>
                        </div>                         
                    </div>
 
                    <div class="col-xs-12" style="padding: 0px;margin-top: 10px;">
-                        <div class="col-xs-4 text-left">
+                        <div class="col-xs-4 text-center">
                            <i class="fa fa-flag"> <span style="font-size: 12px;font-family: 'Arial';padding-left: 5px;"> <?php echo $infouno[0]->fechaInicio;?></span></i>
                         </div> 
 
@@ -120,7 +130,7 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
                            <i class="fa fa-heart"> <span style="font-size: 12px;font-family: 'Arial';padding-left: 5px;"><?php echo $infouno[0]->numeroFavoritos;?></span></i>
                         </div> 
 
-                          <div class="col-xs-4 text-right">
+                          <div class="col-xs-4 text-center">
                            <i class="fa fa-user"> <span style="font-size: 12px;font-family: 'Arial';padding-left: 5px;">Opinion App</span></i>
                         </div>    
                    </div>
@@ -136,20 +146,32 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
                          <table class="table table-condenced">
                          <?php 
                           $bandera=0;
-                          foreach ($preguntas as $key ) {                         
+                          $contador_estilo=0;
+                          foreach ($preguntas as $key ) { 
+                          if($contador_estilo==14)
+                          {
+                            $contador_estilo=0;
+                          }                                                  
                           $porcentaje=100 - number_format(($key->cantidad*100)/$total, 2, '.', '');
-                          if($bandera==0){$sumar=$porcentaje;$bandera=1;}                          
+                          if($bandera==0){$sumar=$porcentaje;$bandera=1;}  
+                          
+                          $porcentaje_total=number_format((($key->cantidad*100)/$total)+$sumar, 2, '.', '');
+                          if($key->cantidad==0)
+                          {
+                            $porcentaje_total=17;
+                          }                       
                             echo '<tr>
                                        <td style="width: 20%;text-align: right;padding-top: 11px;"><strong>'.$key->textoRespuesta.'</strong></td>
-                                       <td style=""> 
-                                        <div class="progress-bar progress-bar-info sombra-barra" role="progressbar"
+                                       <td style="vertical-align: middle;"> 
+                                        <div class="progress-bar answer-bg-color-'.$contador_estilo.' sombra-barra" role="progressbar"
                                              aria-valuenow="21" aria-valuemin="0" aria-valuemax="100"
-                                             style="width: '.number_format((($key->cantidad*100)/$total)+$sumar, 2, '.', '').'%;">
+                                             style="width: '.$porcentaje_total.'%;">
                                           <span class="sr-only">'.number_format(($key->cantidad*100)/$total, 2, '.', '').'% completado</span>
-                                          '.number_format(($key->cantidad*100)/$total, 2, '.', '').'%
+                                          <div class="text-left" style="padding-left:15px;">'.$key->cantidad.' Votos - '.number_format(($key->cantidad*100)/$total, 2, '.', '').'%</div>
                                         </div> 
                                       </td>
                                      </tr> '; 
+                                    $contador_estilo=$contador_estilo+1;
                          }?>
                            
                          </table>
@@ -162,27 +184,31 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
 
                     <div class="col-xs-12 text-left sombra" style="padding: 15px;border-radius: 10px;margin-top: 20px;">
                        <h4 class="text-center">Comparte el link para que otras personas voten</h4>
-                       <input class="form-control" value="link" type="" name="" style="margin-top: 5px;">
+                       <input id="url"  class="form-control" value=" <?php echo'http://opinion-app.com/share.php?id='.$identificador.'&type=PC';?> " type="" name="" style="margin-top: 5px;">
                          <div class="text-center" style="padding-top: 10px;">
-                            <button class="btn btn-primary" style="margin-top: 10px;">Copiar link</button>
+                            <button onclick="copiar('#url')" class="btn btn-primary" style="margin-top: 10px;">Copiar link</button>
                       </div>
                    </div>
 
                     <div class="col-xs-12 text-left sombra" style="padding: 15px;border-radius: 10px;margin-top: 20px;">
                        <h4 class="text-center">Compartir en tus redes sociales</h4>
-                        <div class="col-sm-3 text-center" style="padding-top: 10px;">
+                        <div class="col-xs-3 text-center" style="padding-top: 10px;">
                                <img src="local/resources/views/img/whatsapp.png" alt="User Image">    
                         </div>
-                         <div class="col-sm-3 text-center" style="padding-top: 10px;">
+                         <div class="col-xs-3 text-center" style="padding-top: 10px;">
                                <img src="local/resources/views/img/twitter.png" alt="User Image">    
                         </div>
-                         <div class="col-sm-3 text-center" style="padding-top: 10px;">
+                         <div class="col-xs-3 text-center" style="padding-top: 10px;">
                                <img src="local/resources/views/img/facebook.png" alt="User Image">    
                         </div>
-                         <div class="col-sm-3 text-center" style="padding-top: 10px;">
+                         <div class="col-xs-3 text-center" style="padding-top: 10px;">
                                <img src="local/resources/views/img/google-plus.png" alt="User Image">    
                         </div>
                    </div>
+
+                    <div class="text-center" style="padding-top: 10px;">
+                            <button onClick="history.back()" class="btn btn-primary" style="margin-top: 10px;width: 90px;">Atrás</button>
+                    </div>
               </div>
             <div class="col-md-1 col-sm-0"></div>
               <!-- /.table-responsive -->
@@ -193,8 +219,7 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
                 </section>
             </div>
         </div>
-    </body>
-</html>
+
 <!-- /.info-box -->
 <!-- /.content -->
 <!-- /.content-wrapper -->
@@ -202,3 +227,24 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
 <div class="control-sidebar-bg">
 </div>
 <?php include('local/resources/views/includes/referencias_down.php');?>
+
+<script type="text/javascript">
+  function copiar(id_elemento) {// seleccionar el texto de la dirección de email
+  window.getSelection().removeAllRanges();
+  var email = document.querySelector(id_elemento);
+  var range = document.createRange();
+  range.selectNode(email);
+  window.getSelection().addRange(range); 
+  try {
+    // intentar copiar el contenido seleccionado
+    var resultado = document.execCommand('copy');
+    console.log(resultado ? 'Email copiado' : 'No se pudo copiar el email');
+  } catch(err) {
+    console.log('ERROR al intentar copiar el email');
+  } 
+  window.getSelection().removeAllRanges(); 
+}
+</script> 
+    </body>
+</html>
+

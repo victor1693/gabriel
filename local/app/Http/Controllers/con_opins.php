@@ -51,6 +51,7 @@ class con_opins extends Controller {
 		t1.nombreFoto,
 		t1.bloqueada,
 		t1.publica,
+		t1.idEncuesta,
 		t1.seleccionUnica,
 		t3.idUsuario as favorito 
 		FROM Encuesta t1 
@@ -63,11 +64,11 @@ class con_opins extends Controller {
 
 		$datosuno=DB::select($sql);
 		$vista->infouno=$datosuno;
-
+		$vista->identificador=$_POST['id_form'];
 		//Consulta para  obtener las preguntas
 		$sql="SELECT  t2.idRespuestaEncuesta,t2.textoRespuesta,count(t3.idRespuestaEncuesta) as cantidad FROM PreguntaEncuesta t1
 		INNER JOIN RespuestaEncuesta t2 ON t1.idPreguntaEncuesta = t2.idPreguntaEncuesta
-        INNER JOIN SeleccionRespuestaEncuesta t3 ON t2.idRespuestaEncuesta =t3.idRespuestaEncuesta 
+        LEFT JOIN SeleccionRespuestaEncuesta t3 ON t2.idRespuestaEncuesta =t3.idRespuestaEncuesta 
 		WHERE t1.idEncuesta = ".$_POST['id_form']."
         GROUP BY t2.textoRespuesta
         order by count(t2.idRespuestaEncuesta) desc";		
@@ -86,7 +87,7 @@ class con_opins extends Controller {
 	 */
 	public function votado()
 	{
-		return View("opinsvotados");
+		//return View("opinsvotados");
 	}
 
 	/**

@@ -57,8 +57,17 @@
             <div class="box-body">
             <div class="col-md-1 col-sm-0"></div>
               <div class="col-md-10 col-sm-12 text-center sp" >
-                  <div class="col-sm-12 sp sombra-interna " style="padding-top: 50px;padding-bottom: 50px; border-radius: 10px;">
-                    <img style="border-radius: 10px;width: 80%;" class="sombra" src="local/resources/views/img/perfil.jpg">
+                 <?php 
+                  $foto="0.png";
+                  $carpeta="0";
+                 if($infouno[0]->nombreFoto!="")
+                 {
+                    $foto=$infouno[0]->nombreFoto;
+                    $carpeta=$infouno[0]->idEncuesta;
+                 } 
+               ?>
+              <div class="col-sm-12 sp sombra-interna" style="padding-top: 50px;padding-bottom: 50px; border-radius: 10px;">
+                  <img class="sombra" src="http://opinion-app.com/upload/fotos/encuestas/<?php echo $carpeta;?>/<?php echo $foto;?>" style="border-radius: 10px; width: 80%;">
                     <h3><?php echo $infouno[0]->textoPregunta;?> </h3>
                    <div class="col-xs-12" style="padding: 0px;">
                         <div class="col-xs-4 text-left">
@@ -145,27 +154,31 @@
 
                     <div class="col-xs-12 text-left sombra" style="padding: 15px;border-radius: 10px;margin-top: 20px;">
                        <h4 class="text-center">Comparte el link para que otras personas voten</h4>
-                       <input class="form-control" value="link" type="" name="" style="margin-top: 5px;">
+                       <input id="url"  class="form-control" value=" <?php echo'http://opinion-app.com/share.php?id='.$identificador.'&type=PC';?> " type="" name="" style="margin-top: 5px;">
                          <div class="text-center" style="padding-top: 10px;">
-                            <button class="btn btn-primary" style="margin-top: 10px;">Copiar link</button>
+                            <button onclick="copiar('#url')" class="btn btn-primary" style="margin-top: 10px;">Copiar link</button>
                       </div>
                    </div>
 
                    <div class="col-xs-12 text-left sombra" style="padding: 15px;border-radius: 10px;margin-top: 20px;">
                        <h4 class="text-center">Compartir en tus redes sociales</h4>
-                        <div class="col-sm-3 text-center" style="padding-top: 10px;">
+                        <div class="col-xs-3 text-center" style="padding-top: 10px;">
                                <img src="local/resources/views/img/whatsapp.png" alt="User Image">    
                         </div>
-                         <div class="col-sm-3 text-center" style="padding-top: 10px;">
+                         <div class="col-xs-3 text-center" style="padding-top: 10px;">
                                <img src="local/resources/views/img/twitter.png" alt="User Image">    
                         </div>
-                         <div class="col-sm-3 text-center" style="padding-top: 10px;">
+                         <div class="col-xs-3 text-center" style="padding-top: 10px;">
                                <img src="local/resources/views/img/facebook.png" alt="User Image">    
                         </div>
-                         <div class="col-sm-3 text-center" style="padding-top: 10px;">
+                         <div class="col-xs-3 text-center" style="padding-top: 10px;">
                                <img src="local/resources/views/img/google-plus.png" alt="User Image">    
                         </div>
                    </div>
+
+                   <div class="text-center" style="padding-top: 10px;">
+                            <button onClick="history.back()" class="btn btn-primary" style="margin-top: 10px;width: 90px;">Atrás</button>
+                    </div>
               </div>
             <div class="col-md-1 col-sm-0"></div>
               <!-- /.table-responsive -->
@@ -176,12 +189,32 @@
                 </section>
             </div>
         </div>
+
+<?php //include('includes/footer.php');?>
+<div class="control-sidebar-bg">
+</div>
+<?php include('local/resources/views/includes/referencias_down.php');?>
+
+<script type="text/javascript">
+  function copiar(id_elemento) {// seleccionar el texto de la dirección de email
+  window.getSelection().removeAllRanges();
+  var email = document.querySelector(id_elemento);
+  var range = document.createRange();
+  range.selectNode(email);
+  window.getSelection().addRange(range); 
+  try {
+    // intentar copiar el contenido seleccionado
+    var resultado = document.execCommand('copy');
+    console.log(resultado ? 'Email copiado' : 'No se pudo copiar el email');
+  } catch(err) {
+    console.log('ERROR al intentar copiar el email');
+  } 
+  window.getSelection().removeAllRanges(); 
+}
+</script> 
+
     </body>
 </html>
 <!-- /.info-box -->
 <!-- /.content -->
 <!-- /.content-wrapper -->
-<?php //include('includes/footer.php');?>
-<div class="control-sidebar-bg">
-</div>
-<?php include('local/resources/views/includes/referencias_down.php');?>
