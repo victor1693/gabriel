@@ -1,3 +1,6 @@
+<?php 
+    $mi_tokken=csrf_token();
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -10,7 +13,7 @@
                 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
                     <!-- Bootstrap 3.3.7 -->
                     <?php include('local/resources/views/includes/referencias_top.html');?> 
-            <meta name="csrf-token" content="<?php echo csrf_token(); ?>">
+            <meta name="csrf-token" content="<?php echo $mi_tokken;?>">
         
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
@@ -282,13 +285,18 @@
             </div>
         </div>
 
+<!-- Ver opin detallado-->
+<form id="formulario_detalle" method="post" action="opins">
+    <input name="_token" type="hidden" value="<?php echo $mi_tokken;?>" id="my_token">
+    <input id="id_form" type="hidden" name="id_form">
+</form>
+
 <style type="text/css">
     .favoritoUser
     {
-        color: #c12600;
-         
+        color: #c12600; 
     }
-</style>>
+</style>
 <!-- /.content -->
 <!-- /.content-wrapper -->
 <?php //include('includes/footer.php');?>
@@ -433,7 +441,7 @@ function validar_favoritos()
                         carpeta="0";
                         imagen="0.png";
                         }
-                     columna=columna+'<tr> <td style="width: 30px;padding-left: 5px;"> <img class="img-circle" style="width:30px;" src="local/resources/views/uploads/encuestas/'+carpeta+'/'+imagen+'"> </td> <td> <div class="text-left" style="font-size: 12px;"> <strong> '+datos["textoPregunta"]+'</strong> </div> <div class="text-left" style="font-size: 12px;padding-top: 2px;"> <span> '+baderaVerde+datos["fechaCreacion"]+' '+seleccionUnica+' <span style="padding-left: 15px;margin-top"> <i id="'+datos["idEncuesta"]+'" class="fa fa-fw fa-heart"><span  style="margin-left:5px;color:#000;">'+datos["favorito"]+'</span></i> </span> <span style="padding-left: 20px;"> <i class="ion ion-stats-bars"><span style="margin-left:5px;">'+datos["numeroVotantes"]+'</span></i></span> <i style="margin-left:10px;"> <img src="local/resources/views/img/open.png" style="width:15px;"> </i> </span> <a class="pull-right" href="'+datos["idUsuarioPropietario"]+'" style="text-decoration: underline;"> <strong> '+usuario+' </strong> </a> <br/>'+fechaFin+'</div> </td> </tr>';    
+                     columna=columna+'<tr> <td style="width: 30px;padding-left: 5px;"> <img class="img-circle" style="width:30px;" src="http://opinion-app.com/upload/fotos/encuestas/'+carpeta+'/'+imagen+'"> </td> <td> <div onClick="opin('+datos["idEncuesta"]+' )" style="width:85%;cursor:pointer;"><div class="text-left" style="font-size: 12px;"> <strong> '+datos["textoPregunta"]+'</strong> </div> <div class="text-left" style="font-size: 12px;padding-top: 2px;"> <span> '+baderaVerde+datos["fechaCreacion"]+' '+seleccionUnica+' <span style="padding-left: 15px;margin-top"> <i id="'+datos["idEncuesta"]+'" class="fa fa-fw fa-heart"><span  style="margin-left:5px;color:#000;">'+datos["favorito"]+'</span></i> </span> <span style="padding-left: 20px;"> <i class="ion ion-stats-bars"><span style="margin-left:5px;">'+datos["numeroVotantes"]+'</span></i></span> <i style="margin-left:10px;"> <img src="local/resources/views/img/open.png" style="width:15px;"> </i> </span> <a class="pull-right" href="'+datos["idUsuarioPropietario"]+'" style="text-decoration: underline;margin-right:-15%;"> <strong> '+usuario+' </strong> </a> <br/>'+fechaFin+'</div></div> </td> </tr>';    
                 });
                 $("#tabla_opins").html("");
                 $("#tabla_opins").html(columna);
@@ -442,7 +450,11 @@ function validar_favoritos()
                
         })
     }
-    
+    function opin(id)
+    {
+        $("#id_form").val(id);
+        $("#formulario_detalle").submit();
+    }
 </script>
  
 

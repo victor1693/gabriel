@@ -73,7 +73,7 @@ class con_login extends Controller {
 		 SELECT idUsuario, login, email, clave,COUNT(idUsuario) AS contador 
 		 FROM Usuario 
 		 WHERE (email = '".$_POST['correo']."' OR  login = '".$_POST['correo']."') AND clave ='".hash('sha256', $_POST['pass'])."'";
-		 
+		 	
 		 	try {
                  $datos=DB::select($sql);
             } catch (QueryException $e) {
@@ -88,7 +88,8 @@ class con_login extends Controller {
 				 FROM Usuario 
 				 WHERE (email = '".$_POST['correo']."' 
 				 OR  login = '".$_POST['correo']."') 
-				 AND clave ='".hash('sha256', $_POST['pass'])."'";				 
+				 AND clave ='".hash('sha256', $_POST['pass'])."'";	
+
 				 	try {
 		                $datos2=DB::select($sql);
 		                if($datos2[0]->estado==1)

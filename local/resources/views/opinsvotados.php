@@ -13,7 +13,6 @@
                 </meta>
             </meta>
         </meta>
-
         <style type="text/css">
           .circulo {
                width: 24px;
@@ -36,6 +35,14 @@
                 -moz-box-shadow: inset 0px 0px 23px 0px rgba(0,0,0,0.40);
                 box-shadow: inset 0px 0px 23px 0px rgba(0,0,0,0.40);
                }
+
+               .sombra-barra
+               {
+                border-radius: 5px;
+             -webkit-box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
+-moz-box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
+box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
+               }
           
         </style>
     </head>
@@ -56,13 +63,15 @@
             <!-- /.box-header -->
             <div class="box-body">
             <div class="col-md-1 col-sm-0"></div>
-              <div class="col-md-10 col-sm-12 text-center sp" >
-                  <div class="col-sm-12 sp sombra-interna " style="padding-top: 50px;padding-bottom: 50px; border-radius: 10px;">
-                    <img style="border-radius: 10px;width: 80%;" class="sombra" src="local/resources/views/img/perfil.jpg">
-                    <h3><?php echo $infouno[0]->textoPregunta;?> </h3>
-                   <div class="col-xs-12" style="padding: 0px;">
+              <div class="col-md-10 col-sm-12 text-center sp " >
+              <div class="col-sm-12 sp sombra-interna" style="padding-top: 50px;padding-bottom: 50px; border-radius: 10px;">
+                  <img class="sombra" src="local/resources/views/img/perfil.jpg" style="border-radius: 10px; width: 80%;">
+
+                  <h3><?php echo $infouno[0]->textoPregunta;?></h3>
+                   <div class="col-xs-12 " style="padding: 0px;">
                         <div class="col-xs-4 text-left">
                            <li style="list-style: none;">
+                              <li style="list-style: none;">
                               <img src="local/resources/views/img/open.png" alt="User Image">
                               <?php if($infouno[0]->publica == 1)
                                   {
@@ -72,10 +81,12 @@
                                   {
                                     echo'<a class="users-list-name" href="#">Opin Privado</a> ';
                                   }
-                                  ?> 
+                                  ?>
+                              
+                            </li> 
                             </li>
                         </div>
-                       <div class="col-xs-4 text-center"> 
+                       <div class="col-xs-4 text-center">  
                             <li style="list-style: none;">
                                   <img src="local/resources/views/img/alarm-clock.png" alt="User Image">
 
@@ -87,24 +98,14 @@
                                   {
                                     echo'<a class="users-list-name" href="#">Finaliza '.$infouno[0]->fechaFin.'</a> ';
                                   }
-                                  ?>
-                                  
+                                  ?> 
                           </li>
                        
                        </div>   
                        <div class="col-xs-4 text-right">
                            <li style="list-style: none;">
-                                  <img src="local/resources/views/img/like.png" alt="User Image">
-                                  
-                                <?php if($infouno[0]->favorito == "")
-                                  {
-                                    echo'<a class="users-list-name" href="#">No favorito</a>  ';
-                                  }
-                                  else
-                                  {
-                                    echo'<a class="users-list-name" href="#">Favorito</a> ';
-                                  }
-                                  ?> 
+                                  <p style="font-size: 18px;color: #fff;" class="circulo text-center pull-right"><?php echo $infouno[0]->seleccionUnica;?> </p> 
+                                  <a class="users-list-name pull-right" href="#" style="margin-top: 24px;margin-right: -25px;">Posibles respuestas</a> 
                           </li>
                        </div>                         
                    </div>
@@ -123,22 +124,38 @@
                            <i class="fa fa-user"> <span style="font-size: 12px;font-family: 'Arial';padding-left: 5px;">Opinion App</span></i>
                         </div>    
                    </div>
-                  </div>
+                   </div>
 
                    <div class="col-xs-12 text-left" style="padding: 0px;padding-top: 15px;padding-left: 15px;">
-
-                    <?php
-                      foreach ($preguntas as $key) {
-                        echo '<div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="'.$key->idRespuestaEncuesta.'" id="defaultCheck'.$key->idRespuestaEncuesta.'">
-                                <label class="form-check-label" for="defaultCheck1">
-                                  '.$key->textoRespuesta.'
-                                </label>
-                              </div>';
-                        }
-                    ?> 
+                         <?php $total=0;
+                         $sumar=0;
+                         ?>
+                         <?php foreach ($preguntas as $key ) {
+                           $total=$total+$key->cantidad;
+                         }?>
+                         <table class="table table-condenced">
+                         <?php 
+                          $bandera=0;
+                          foreach ($preguntas as $key ) {                         
+                          $porcentaje=100 - number_format(($key->cantidad*100)/$total, 2, '.', '');
+                          if($bandera==0){$sumar=$porcentaje;$bandera=1;}                          
+                            echo '<tr>
+                                       <td style="width: 20%;text-align: right;padding-top: 11px;"><strong>'.$key->textoRespuesta.'</strong></td>
+                                       <td style=""> 
+                                        <div class="progress-bar progress-bar-info sombra-barra" role="progressbar"
+                                             aria-valuenow="21" aria-valuemin="0" aria-valuemax="100"
+                                             style="width: '.number_format((($key->cantidad*100)/$total)+$sumar, 2, '.', '').'%;">
+                                          <span class="sr-only">'.number_format(($key->cantidad*100)/$total, 2, '.', '').'% completado</span>
+                                          '.number_format(($key->cantidad*100)/$total, 2, '.', '').'%
+                                        </div> 
+                                      </td>
+                                     </tr> '; 
+                         }?>
+                           
+                         </table>
+                     
                       <div class="text-center">
-                            <button  class="btn form-control btn-primary" style="margin-top: 10px;border-radius: 30px;">Votar y ver resultados</button>
+                            <button class="btn form-control btn-danger" style="margin-top: 10px;border-radius: 30px;">Ya ha votado en este opin</button>
                       </div>
                     
                    </div>
@@ -151,7 +168,7 @@
                       </div>
                    </div>
 
-                   <div class="col-xs-12 text-left sombra" style="padding: 15px;border-radius: 10px;margin-top: 20px;">
+                    <div class="col-xs-12 text-left sombra" style="padding: 15px;border-radius: 10px;margin-top: 20px;">
                        <h4 class="text-center">Compartir en tus redes sociales</h4>
                         <div class="col-sm-3 text-center" style="padding-top: 10px;">
                                <img src="local/resources/views/img/whatsapp.png" alt="User Image">    

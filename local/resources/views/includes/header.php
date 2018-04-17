@@ -25,7 +25,8 @@
           
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="local/resources/views/img/profile-users/<?php echo session()->get("id");?>.jpg" class="user-image" alt="User Image">
+             <!-- <img src="local/resources/views/img/profile-users/<?php echo session()->get("id");?>.jpg" class="user-image" alt="User Image">-->
+              <img src="http://www.opinion-app.com/upload/fotos/users/0/0.png" class="user-image" alt="User Image">
               <span class="hidden-xs"><?php echo session()->get("nombre");?></span>
             </a>             
           </li>

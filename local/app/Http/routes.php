@@ -21,7 +21,8 @@ Route::get('inicio', 'con_home@index');
 Route::get('logout', 'con_login@salir');
 Route::post('listaropins', 'con_home@ajax_listar_opins');
 Route::post('validaropin', 'con_home@validar_votados');
-Route::get('opins', 'con_opins@index');
+Route::post('opins', 'con_opins@index');
+Route::get('votado', 'con_opins@votado');
 Route::get('profile', function (){return view('profile');});
 });
  
