@@ -54,7 +54,7 @@
               <h3 class="box-title">Detalle de opin</h3> 
             </div>
             <!-- /.box-header -->
-            <div class="box-body">
+            <div class="box-body" style="max-width: 800px; margin: 0 auto;">
             <div class="col-md-1 col-sm-0"></div>
               <div class="col-md-10 col-sm-12 text-center sp" >
                  <?php 

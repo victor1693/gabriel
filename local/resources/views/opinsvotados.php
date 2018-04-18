@@ -62,7 +62,7 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
               <h3 class="box-title">Detalle de opin</h3> 
             </div>
             <!-- /.box-header -->
-            <div class="box-body">
+             <div class="box-body" style="max-width: 800px; margin: 0 auto;">
             <div class="col-md-1 col-sm-0"></div>
               <div class="col-md-10 col-sm-12 text-center sp " >
                <?php 
@@ -137,7 +137,8 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
                    </div>
 
                    <div class="col-xs-12 text-left" style="padding: 0px;padding-top: 15px;padding-left: 15px;">
-                         <?php $total=0;
+                         <?php 
+                         $total=0;
                          $sumar=0;
                          ?>
                          <?php foreach ($preguntas as $key ) {
@@ -146,32 +147,59 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
                          <table class="table table-condenced">
                          <?php 
                           $bandera=0;
-                          $contador_estilo=0;
+                          $contador_estilo=0; 
+                          $valor_entrada=0;
+                          $porcentaje_total=0;
                           foreach ($preguntas as $key ) { 
                           if($contador_estilo==14)
                           {
                             $contador_estilo=0;
                           }                                                  
-                          $porcentaje=100 - number_format(($key->cantidad*100)/$total, 2, '.', '');
-                          if($bandera==0){$sumar=$porcentaje;$bandera=1;}  
+                          $porcentaje=100 - number_format(($key->cantidad*100)/$total, 1, '.', '');
+                          if($bandera==0){
+                            $sumar=$porcentaje;
+                            $bandera=1;
+                            $valor_entrada=$key->cantidad;
+                            $porcentaje_total=number_format((($key->cantidad*100)/$total)+$sumar, 1, '.', '');
+                          }
+                          else
+                          {
+                            $porcentaje_total=number_format(($key->cantidad*100)/$valor_entrada, 1, '.', '');
+                          }
                           
-                          $porcentaje_total=number_format((($key->cantidad*100)/$total)+$sumar, 2, '.', '');
                           if($key->cantidad==0)
                           {
-                            $porcentaje_total=17;
-                          }                       
+                            $porcentaje_total=0;
+                          }
+                          $barra="";
+
+                          
+                          if(number_format(($key->cantidad*100)/$total, 1, '.', '')>6)
+                          {
+                            $barra='<div class="progress-bar answer-bg-color-'.$contador_estilo.' sombra-barra" role="progressbar"
+                                             aria-valuenow="21" aria-valuemin="0" aria-valuemax="100"
+                                             style="width: '.$porcentaje_total.'%;"> 
+                                          <div class="text-left" style="padding-left:15px;">'.$key->cantidad." votos ( ".number_format(($key->cantidad*100)/$total, 1, '.', '')."% )".'</div>
+                                        </div> ';
+                          }
+                          else
+                          {
+                             $barra='<div class="progress-bar answer-bg-color-'.$contador_estilo.' sombra-barra" role="progressbar"
+                                             aria-valuenow="21" aria-valuemin="0" aria-valuemax="100"
+                                             style="width: '.$porcentaje_total.'%;"> 
+                                          <div class="text-left" style="padding-left:15px;">&nbsp;</div>
+                                        </div> <span style="padding-left:10px;">'.$key->cantidad." votos ( ".number_format(($key->cantidad*100)/$total, 1, '.', '')."% )".'</span>'                                   
+                                        ;
+
+                          }
                             echo '<tr>
                                        <td style="width: 20%;text-align: right;padding-top: 11px;"><strong>'.$key->textoRespuesta.'</strong></td>
                                        <td style="vertical-align: middle;"> 
-                                        <div class="progress-bar answer-bg-color-'.$contador_estilo.' sombra-barra" role="progressbar"
-                                             aria-valuenow="21" aria-valuemin="0" aria-valuemax="100"
-                                             style="width: '.$porcentaje_total.'%;">
-                                          <span class="sr-only">'.number_format(($key->cantidad*100)/$total, 2, '.', '').'% completado</span>
-                                          <div class="text-left" style="padding-left:15px;">'.$key->cantidad.' Votos - '.number_format(($key->cantidad*100)/$total, 2, '.', '').'%</div>
-                                        </div> 
+                                        '.$barra.' 
                                       </td>
                                      </tr> '; 
                                     $contador_estilo=$contador_estilo+1;
+                         
                          }?>
                            
                          </table>
