@@ -10,9 +10,24 @@ class con_home extends Controller {
 	
 	public function validar_votados() //saber si el opin fue votado por el usuario logueado 
 	{
-		$sql="SELECT * from FavoritoEncuesta WHERE idUsuario= ".session()->get('id')." ";
+		$sql="SELECT * from FavoritoEncuesta WHERE idUsuario=  ".session()->get('id')."";
 		$datos=DB::select($sql); 
 		echo json_encode($datos); 
+	}
+
+	public  function ver_votados()
+	{
+
+		/*$sql="SELECT count(t1.idUsuario) as total from SeleccionRespuestaEncuesta t1
+		INNER JOIN RespuestaEncuesta t2 ON t2.idRespuestaEncuesta = t1.idRespuestaEncuesta
+		INNER JOIN PreguntaEncuesta t3 ON t3.idPreguntaEncuesta = t2.idPreguntaEncuesta
+		WHERE t1.idUsuario=".session()->get('id')." and t3.idEncuesta=".$_POST['opin']." ";*/
+		$sql="SELECT t3.idEncuesta from SeleccionRespuestaEncuesta t1
+				INNER JOIN RespuestaEncuesta t2 ON t2.idRespuestaEncuesta = t1.idRespuestaEncuesta
+				INNER JOIN PreguntaEncuesta t3 ON t3.idPreguntaEncuesta = t2.idPreguntaEncuesta
+				WHERE t1.idUsuario=".session()->get('id')." GROUP by t3.idEncuesta";
+		$datos=DB::select($sql); 
+		echo json_encode($datos);
 	}
 
 	public function ajax_listar_opins() //listar todos los opins
@@ -45,6 +60,7 @@ class con_home extends Controller {
 
 			if($_POST["vista"]==1)
 			{
+
 				$sql="SELECT  t1.creadaPorAdministrador,numeroFavoritos as favorito,numeroVotantes, t1.nombreFoto as foto, t3.login, t1.idUsuarioPropietario, t1.idEncuesta,date_format(t1.fechaCreacion,'%d-%m-%Y') as fechaCreacion ,t2.textoPregunta,t1.idTematica,t1.fechaFin,t1.seleccionUnica from Encuesta t1
 				LEFT JOIN PreguntaEncuesta t2 ON t1.idEncuesta = t2.idEncuesta
 				LEFT JOIN Usuario t3 ON t1.idUsuarioPropietario = t3.idUsuario

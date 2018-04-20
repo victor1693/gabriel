@@ -14,7 +14,7 @@
                     <!-- Bootstrap 3.3.7 -->
                     <?php include('local/resources/views/includes/referencias_top.html');?> 
             <meta name="csrf-token" content="<?php echo $mi_tokken;?>">
-        
+      
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
@@ -194,11 +194,12 @@
                                                 {
                                                     $publica='<img src="local/resources/views/img/open.png" style="width:12px;margin-left:8px;">';
                                                 }
-                                                 if($key->seleccionUnica)
-                                                {
-                                                    $su='<i style="margin-left:10px;" class="fa  fa-check-square"></i>';
-                                                }
-                                                 if($key->fechaFin!=null)
+                                                
+                                                    $su='<i id="opin_votado_lateral_'.$key->idEncuesta.'" style="margin-left:10px;display:none;" class="fa  fa-check-square"></i>';
+                                               
+                                                $hoy=date("Y-m-d");
+
+                                                 if($key->fechaFin!=null  && $key->fechaFin < $hoy)
                                                 {
                                                     $fechaFin='<i style="color:#8e0015;margin-right:5px;" class="fa fa-flag"></i> '.$key->fechaFin.'';
                                                 }
@@ -314,6 +315,7 @@ baderaFecha=0;
 baderaVotos=0; 
 $(document).ready(function() { 
 filtrar("",bvotos,bfecha,bfiltro,bcategoria)
+validar_votados();
 }); 
 
 
@@ -396,6 +398,32 @@ function validar_favoritos()
         })
     } 
 
+function validar_votados() //Saber si el usuario voto un opin
+    {     
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });  
+        $.ajax({
+            url: 'validarvotado',
+            type: 'post', 
+            dataType:"json", 
+            success: function(data)  
+            {  
+                $.each(data, function(i, datos) {                    
+                    if(datos['idEncuesta']>0)
+                    {
+                         
+                        $("#opin_votado_"+datos['idEncuesta']).show();
+                        $("#opin_votado_lateral_"+datos['idEncuesta']).show();                           
+                    }
+                });
+            }
+               
+        })
+    } 
+
     function generar_opins(buscar,votos,fecha,filtro,categoria)
     {   
 
@@ -413,7 +441,17 @@ function validar_favoritos()
             success: function(data)  
             { 
              columna="";
-                $.each(data, function(i, datos) {  
+            
+             
+                $.each(data, function(i, datos) { 
+                
+                 
+                 var d = new Date();
+                 var mes =d.getMonth();
+                 var dia =d.getDate();
+                 if(mes<10){mes=0+''+mes;}
+                 if(dia<10){dia=0+''+dia;}
+                 var strDate = d.getFullYear() + "-" + (mes) + "-" + (dia); 
                     usuario="Administrador";
                     carpeta="0";
                     imagen="0.png";
@@ -427,10 +465,15 @@ function validar_favoritos()
                         }
                         if(datos["seleccionUnica"]==1)
                         {
-                            seleccionUnica='<i style="margin-left:10px;" class="fa  fa-check-square"></i>';
+                            seleccionUnica='<i id="opin_votado_'+datos["idEncuesta"]+'" style="margin-left:10px;display:none;" class="fa  fa-check-square"></i>';
                         }
-                        if(datos["fechaFin"]!=null)
+                        mostrar=1;
+                        if(datos["fechaFin"]!=null )
                         {
+                            if( (new Date(datos["fechaFin"]).getTime() < new Date(strDate).getTime()))
+                                {
+                                  mostrar=0;
+                                }
                            fechaFin=baderaRoja+datos["fechaFin"];
                         }
                                                             
@@ -441,11 +484,16 @@ function validar_favoritos()
                         carpeta="0";
                         imagen="0.png";
                         }
-                     columna=columna+'<tr> <td style="width: 30px;padding-left: 5px;"> <img class="img-circle" style="width:30px;" src="http://opinion-app.com/upload/fotos/encuestas/'+carpeta+'/'+imagen+'"> </td> <td> <div onClick="opin('+datos["idEncuesta"]+' )" style="width:85%;cursor:pointer;"><div class="text-left" style="font-size: 12px;"> <strong> '+datos["textoPregunta"]+'</strong> </div> <div class="text-left" style="font-size: 12px;padding-top: 2px;"> <span> '+baderaVerde+datos["fechaCreacion"]+' '+seleccionUnica+' <span style="padding-left: 15px;margin-top"> <i id="'+datos["idEncuesta"]+'" class="fa fa-fw fa-heart"><span  style="margin-left:5px;color:#000;">'+datos["favorito"]+'</span></i> </span> <span style="padding-left: 20px;"> <i class="ion ion-stats-bars"><span style="margin-left:5px;">'+datos["numeroVotantes"]+'</span></i></span> <i style="margin-left:10px;"> <img src="local/resources/views/img/open.png" style="width:15px;"> </i> </span> <a class="pull-right" href="'+datos["idUsuarioPropietario"]+'" style="text-decoration: underline;margin-right:-15%;"> <strong> '+usuario+' </strong> </a> <br/>'+fechaFin+'</div></div> </td> </tr>';    
+
+                    if(mostrar==1)
+                    {
+                           columna=columna+'<tr> <td style="width: 30px;padding-left: 5px;"> <img class="img-circle" style="width:30px;" src="http://opinion-app.com/upload/fotos/encuestas/'+carpeta+'/'+imagen+'"> </td> <td> <div onClick="opin('+datos["idEncuesta"]+' )" style="width:85%;cursor:pointer;"><div class="text-left" style="font-size: 12px;"> <strong> '+datos["textoPregunta"]+'</strong> </div> <div class="text-left" style="font-size: 12px;padding-top: 2px;"> <span> '+baderaVerde+datos["fechaCreacion"]+' '+seleccionUnica+' <span style="padding-left: 15px;margin-top"> <i id="'+datos["idEncuesta"]+'" class="fa fa-fw fa-heart"><span  style="margin-left:5px;color:#000;">'+datos["favorito"]+'</span></i> </span> <span style="padding-left: 20px;"> <i class="ion ion-stats-bars"><span style="margin-left:5px;">'+datos["numeroVotantes"]+'</span></i></span> <i style="margin-left:10px;"> <img src="local/resources/views/img/open.png" style="width:15px;"> </i> </span> <a class="pull-right" href="'+datos["idUsuarioPropietario"]+'" style="text-decoration: underline;margin-right:-15%;"> <strong> '+usuario+' </strong> </a> <br/>'+fechaFin+'</div></div> </td> </tr>';  
+                    }  
                 });
                 $("#tabla_opins").html("");
                 $("#tabla_opins").html(columna);
                 validar_favoritos();
+                //validar_votados();
             }
                
         })

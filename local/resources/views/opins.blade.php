@@ -50,8 +50,8 @@
                 <?php include('local/resources/views/includes/aside_right.php');?>
                     <div class="row" style="padding: 10px;">
                         <div class="box box-info" style="padding-bottom: 20px;">
-            <div class="box-header with-border">
-              <h3 class="box-title">Detalle de opin</h3> 
+           <div class="box-header with-border" >
+                <button onClick="history.back()" class="btn btn-primary btn-xs" style="width: 70px;margin-top: -2px;"><i class="fa fa-arrow-left" style="padding-right: 5px;"></i>Volver</button> <h3 class="box-title">Detalle de opin</h3> 
             </div>
             <!-- /.box-header -->
             <div class="box-body" style="max-width: 800px; margin: 0 auto;">
@@ -94,7 +94,8 @@
                                   }
                                   else
                                   {
-                                    echo'<a class="users-list-name" href="#">Finaliza '.$infouno[0]->fechaFin.'</a> ';
+                                    echo"</br>
+                                     <a class='users-list-name' href='#'><i style='margin-right:5px;color:#8e0015;font-size: 12px;' class='fa fa-flag'></i>".$infouno[0]->fechaFin."</a>";
                                   }
                                   ?>
                                   
@@ -120,8 +121,10 @@
 
                    <div class="col-xs-12" style="padding: 0px;margin-top: 10px;">
                         <div class="col-xs-4 text-left">
-                           <i class="fa fa-flag"> <span style="font-size: 12px;font-family: 'Arial';padding-left: 5px;"> <?php echo $infouno[0]->fechaInicio;?></span></i>
+                           <i style=",margin-right:5px;color:#006804;"" class="fa fa-flag"> <span style="font-size: 12px;font-family: 'Arial';color:#000;padding-left: 5px;"> <?php echo $infouno[0]->fechaInicio;?></span></i>
                         </div> 
+
+                       
 
                           <div class="col-xs-4 text-center">
                           <i class="ion ion-stats-bars"> <span style="font-size: 12px;font-family: 'Arial';padding-left: 5px;padding-right: 5px;"><?php echo $infouno[0]->numeroVotantes;?> votos</span></i>
@@ -177,7 +180,7 @@
                    </div>
 
                    <div class="text-center" style="padding-top: 10px;">
-                            <button onClick="history.back()" class="btn btn-primary" style="margin-top: 10px;width: 90px;">Atrás</button>
+                            <button onClick="history.back()" class="btn btn-primary" style="margin-top: 10px;width: 90px;">Volver</button>
                     </div>
               </div>
             <div class="col-md-1 col-sm-0"></div>
@@ -205,7 +208,7 @@
   try {
     // intentar copiar el contenido seleccionado
     var resultado = document.execCommand('copy');
-    console.log(resultado ? 'Email copiado' : 'No se pudo copiar el email');
+    swal({type: 'success',title: '',text: 'En enlace ha sido copiado correctamente',});
   } catch(err) {
     console.log('ERROR al intentar copiar el email');
   } 

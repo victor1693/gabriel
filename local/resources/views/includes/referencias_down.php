@@ -44,6 +44,8 @@
 
 <script src="local/resources/views/dist/js/particles.js"></script> 
  
-<script src="http://code.sigasoft.com.br/sweetalert2/dist/sweetalert2.min.js"></script> 
+<script src="http://code.sigasoft.com.br/sweetalert2/dist/sweetalert2.min.js"></script>
+
+
 
  

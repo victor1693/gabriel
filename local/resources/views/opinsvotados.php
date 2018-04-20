@@ -58,8 +58,11 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
                 <?php include('local/resources/views/includes/aside_right.php');?>
                     <div class="row" style="padding: 10px;">
                         <div class="box box-info" style="padding-bottom: 20px;">
-            <div class="box-header with-border">
-              <h3 class="box-title">Detalle de opin</h3> 
+
+             
+
+            <div class="box-header with-border" >
+                <button onClick="history.back()" class="btn btn-primary btn-xs" style="width: 70px;margin-top: -2px;"><i class="fa fa-arrow-left" style="padding-right: 5px;"></i>Volver</button> <h3 class="box-title">Detalle de opin</h3> 
             </div>
             <!-- /.box-header -->
              <div class="box-body" style="max-width: 800px; margin: 0 auto;">
@@ -98,31 +101,42 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
                         </div>
                        <div class="col-xs-4 text-center">  
                             <li style="list-style: none;">
-                                  <img src="local/resources/views/img/alarm-clock.png" alt="User Image">
-
+                                  <img src="local/resources/views/img/alarm-clock.png" alt="User Image"> 
                                   <?php if($infouno[0]->fechaFin == "")
                                   {
                                     echo'<a class="users-list-name" href="#">No limitado</a> ';
                                   }
                                   else
                                   {
-                                    echo'<a class="users-list-name" href="#">Finaliza '.$infouno[0]->fechaFin.'</a> ';
+                                    echo"</br>
+                                     <a class='users-list-name' href='#'><i style='margin-right:5px;color:#8e0015;font-size: 12px;' class='fa fa-flag'></i>".$infouno[0]->fechaFin."</a>";
                                   }
-                                  ?> 
+                                  ?>
                           </li>
                        
                        </div>   
                        <div class="col-xs-4 text-center">
                            <li style="list-style: none;">
-                                  <div style="font-size: 18px;color: #fff;margin:0 auto;" class="circulo "><?php echo $infouno[0]->seleccionUnica;?></div> 
+                                  <div >
+
+                                  <?php if($infouno[0]->seleccionUnica==1)
+                                  {
+                                    echo'<img src="http://www.opinion-app.com/upload/fotos/app/1.svg" style="width: 25px;">';
+                                  }
+                                  else
+                                  {
+                                    echo'<img src="http://www.opinion-app.com/upload/fotos/app/N_.png" style="width: 25px;">';
+                                  }
+                                  ?>
+                                   </div> 
                                   <a class="users-list-name" href="#">Posibles respuestas</a> 
                           </li>
                        </div>                         
                    </div>
-
+ 
                    <div class="col-xs-12" style="padding: 0px;margin-top: 10px;">
                         <div class="col-xs-4 text-center">
-                           <i class="fa fa-flag"> <span style="font-size: 12px;font-family: 'Arial';padding-left: 5px;"> <?php echo $infouno[0]->fechaInicio;?></span></i>
+                           <i style="margin-right:5px;color:#006804;" class="fa fa-flag"> <span style="font-size: 12px;color:#000; font-family: 'Arial';padding-left: 5px;"> <?php echo $infouno[0]->fechaInicio;?></span></i>
                         </div> 
 
                           <div class="col-xs-4 text-center">
@@ -174,7 +188,8 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
                           $barra="";
 
                           
-                          if(number_format(($key->cantidad*100)/$total, 1, '.', '')>6)
+                          
+                          if(number_format(($key->cantidad*100)/$total, 1, '.', '')>11)
                           {
                             $barra='<div class="progress-bar answer-bg-color-'.$contador_estilo.' sombra-barra" role="progressbar"
                                              aria-valuenow="21" aria-valuemin="0" aria-valuemax="100"
@@ -235,7 +250,7 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
                    </div>
 
                     <div class="text-center" style="padding-top: 10px;">
-                            <button onClick="history.back()" class="btn btn-primary" style="margin-top: 10px;width: 90px;">Atrás</button>
+                            <button onClick="history.back()" class="btn btn-primary" style="margin-top: 10px;width: 90px;"><i class="fa fa-arrow-left" style="padding-right: 5px;"></i>Volver</button>
                     </div>
               </div>
             <div class="col-md-1 col-sm-0"></div>
@@ -247,7 +262,8 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
                 </section>
             </div>
         </div>
-
+ <!--Publicidad de adcense-->       
+ 
 <!-- /.info-box -->
 <!-- /.content -->
 <!-- /.content-wrapper -->
@@ -266,7 +282,8 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
   try {
     // intentar copiar el contenido seleccionado
     var resultado = document.execCommand('copy');
-    console.log(resultado ? 'Email copiado' : 'No se pudo copiar el email');
+
+    swal({type: 'success',title: '',text: 'En enlace ha sido copiado correctamente',});
   } catch(err) {
     console.log('ERROR al intentar copiar el email');
   } 
