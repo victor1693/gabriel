@@ -62,7 +62,7 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
              
 
             <div class="box-header with-border" >
-                <button onClick="history.back()" class="btn btn-primary btn-xs" style="width: 70px;margin-top: -2px;"><i class="fa fa-arrow-left" style="padding-right: 5px;"></i>Volver</button> <h3 class="box-title">Detalle de opin</h3> 
+                <button onClick="history.back()" class="btn btn-primary btn-xs" style="width: 70px;margin-top: -2px;"><i class="fa fa-arrow-left" style="padding-right: 5px;"></i>Volver</button> <h3 class="box-title" style="vertical-align:  middle; ">Detalle de opin</h3> 
             </div>
             <!-- /.box-header -->
              <div class="box-body" style="max-width: 800px; margin: 0 auto;">
@@ -80,7 +80,7 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
               <div class="col-sm-12 sp sombra-interna" style="padding-top: 50px;padding-bottom: 50px; border-radius: 10px;">
                   <img class="sombra" src="http://opinion-app.com/upload/fotos/encuestas/<?php echo $carpeta;?>/<?php echo $foto;?>" style="border-radius: 10px; width: 80%;">
 
-                  <h3><?php echo $infouno[0]->textoPregunta;?></h3>
+                  <h3 ><?php echo $infouno[0]->textoPregunta;?></h3>
                    <div class="col-xs-12 " style="padding: 0px;">
                         <div class="col-xs-4 text-center">
                            <li style="list-style: none;">
@@ -135,22 +135,29 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
                    </div>
  
                    <div class="col-xs-12" style="padding: 0px;margin-top: 10px;">
-                        <div class="col-xs-4 text-center">
+                        <div class="col-xs-4 text-center" style="padding-right: 0px; padding-left: 0px;">
                            <i style="margin-right:5px;color:#006804;" class="fa fa-flag"> <span style="font-size: 12px;color:#000; font-family: 'Arial';padding-left: 5px;"> <?php echo $infouno[0]->fechaInicio;?></span></i>
                         </div> 
 
-                          <div class="col-xs-4 text-center">
+                          <div class="col-xs-4 text-center" style="padding-right: 0px; padding-left: 0px;">
                           <i class="ion ion-stats-bars"> <span style="font-size: 12px;font-family: 'Arial';padding-left: 5px;padding-right: 5px;"><?php echo $infouno[0]->numeroVotantes;?> votos</span></i>
                            <i class="fa fa-heart"> <span style="font-size: 12px;font-family: 'Arial';padding-left: 5px;"><?php echo $infouno[0]->numeroFavoritos;?></span></i>
                         </div> 
 
-                          <div class="col-xs-4 text-center">
-                           <i class="fa fa-user"> <span style="font-size: 12px;font-family: 'Arial';padding-left: 5px;">Opinion App</span></i>
+                          <div class="col-xs-4 text-center" style="padding-right: 0px; padding-left: 0px;">
+                           <i class="fa fa-user"> <span style="font-size: 12px;font-family: 'Arial';padding-left: 5px;">
+                          <?php if($infouno[0]->login==null){echo "Opinion App";}
+                          else
+                          {
+                            echo $infouno[0]->login;
+                          }
+                          ?>  
+                           </span></i>
                         </div>    
                    </div>
                    </div>
 
-                   <div class="col-xs-12 text-left" style="padding: 0px;padding-top: 15px;padding-left: 15px;">
+                   <div class="col-xs-12 text-left" style="padding: 0px;padding-top: 15px;">
                          <?php 
                          $total=0;
                          $sumar=0;
@@ -208,7 +215,7 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
 
                           }
                             echo '<tr>
-                                       <td style="width: 20%;text-align: right;padding-top: 11px;"><strong>'.$key->textoRespuesta.'</strong></td>
+                                       <td style="width: 36%;text-align: right;padding-top: 11px;"><strong>'.$key->textoRespuesta.'</strong></td>
                                        <td style="vertical-align: middle;"> 
                                         '.$barra.' 
                                       </td>
@@ -227,7 +234,7 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
 
                     <div class="col-xs-12 text-left sombra" style="padding: 15px;border-radius: 10px;margin-top: 20px;">
                        <h4 class="text-center">Comparte el link para que otras personas voten</h4>
-                       <input id="url"  class="form-control" value=" <?php echo'http://opinion-app.com/share.php?id='.$identificador.'&type=PC';?> " type="" name="" style="margin-top: 5px;">
+                       <input id="url"  class="form-control" value="<?php echo'http://opinion-app.com/share.php?id='.$identificador.'&type=PC';?>" type="" name="" style="margin-top: 5px;">
                          <div class="text-center" style="padding-top: 10px;">
                             <button onclick="copiar('#url')" class="btn btn-primary" style="margin-top: 10px;">Copiar link</button>
                       </div>
@@ -278,6 +285,7 @@ box-shadow: 6px 7px 13px 0px rgba(0,0,0,0.49);
   var email = document.querySelector(id_elemento);
   var range = document.createRange();
   range.selectNode(email);
+
   window.getSelection().addRange(range); 
   try {
     // intentar copiar el contenido seleccionado

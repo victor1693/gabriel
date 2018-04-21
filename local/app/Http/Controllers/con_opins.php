@@ -52,14 +52,17 @@ class con_opins extends Controller {
 		t1.bloqueada,
 		t1.publica,
 		t1.idEncuesta,
+		t1.idUsuarioPropietario,
 		t1.seleccionUnica,
-		t3.idUsuario as favorito 
+		t3.idUsuario as favorito,
+        t4.login
 		FROM Encuesta t1 
 		INNER JOIN 
 		PreguntaEncuesta t2 
 		ON 
 		t2.idEncuesta = t1.idEncuesta 
 		LEFT JOIN FavoritoEncuesta t3 ON t3.idEncuesta = t1.idEncuesta and t3.idUsuario=".session()->get('id')."
+		LEFT JOIN Usuario t4 ON t4.idUsuario = t1.idUsuarioPropietario
 		WHERE t1.idEncuesta=".$_POST['id_form']."";
 
 		$datosuno=DB::select($sql);

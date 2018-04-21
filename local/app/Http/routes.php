@@ -10,6 +10,11 @@ Route::get('terminos', function (){return view('terminos');});
 Route::post('login', 'con_login@create');
 Route::post('registro', 'con_register@create'); 
 Route::post('recuperarc', 'con_login@recuperar'); 
+
+
+Route::get('json', 'HomeController@index');
+
+
 //Rutas Gabriel
 Route::get('clean', function (){return view('clean');});
 
