@@ -28,7 +28,7 @@ Route::post('listaropins', 'con_home@ajax_listar_opins');
 Route::post('validaropin', 'con_home@validar_votados');
 Route::post('validarvotado', 'con_home@ver_votados');
 
-Route::post('opins', 'con_opins@index');
+Route::get('opins/{id}', 'con_opins@index');
 Route::get('votado', 'con_opins@votado');
 Route::get('profile', function (){return view('profile');});
 });

@@ -4,7 +4,7 @@
         <title>
             Token inválido
         </title>
-        <?php include('local/resources/views/includes/referencias_top.html');?>
+        <?php include('local/resources/views/includes/referencias_top.php');?>
     </head>
     <body class="skin-black fixed ">
     <div class="text-justify" style="padding-right: 200px;padding-left: 200px; margin-bottom: 100px;">

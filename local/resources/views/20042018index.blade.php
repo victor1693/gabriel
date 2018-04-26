@@ -1,3 +1,6 @@
+<?php 
+    $mi_tokken=csrf_token();
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -9,9 +12,9 @@
                 <!-- Tell the browser to be responsive to screen width -->
                 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
                     <!-- Bootstrap 3.3.7 -->
-                    <?php include('local/resources/views/includes/referencias_top.php');?> 
-            <meta name="csrf-token" content="<?php echo csrf_token(); ?>">
-        
+                    <?php include('local/resources/views/includes/referencias_top.html');?> 
+            <meta name="csrf-token" content="<?php echo $mi_tokken;?>">
+      
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
@@ -136,7 +139,7 @@
                                     </div>
                                     <div class="col-sm-3 sp text-center">
                                         <span style="font-size: 24px;">
-                                            Mis favoritos
+                                            Opins Públicos
                                         </span>
                                     </div>
                                     <div class="col-sm-3 sp text-center">
@@ -191,11 +194,12 @@
                                                 {
                                                     $publica='<img src="local/resources/views/img/open.png" style="width:12px;margin-left:8px;">';
                                                 }
-                                                 if($key->seleccionUnica)
-                                                {
-                                                    $su='<i style="margin-left:10px;" class="fa  fa-check-square"></i>';
-                                                }
-                                                 if($key->fechaFin!=null)
+                                                
+                                                    $su='<i id="opin_votado_lateral_'.$key->idEncuesta.'" style="margin-left:10px;display:none;" class="fa  fa-check-square"></i>';
+                                               
+                                                $hoy=date("Y-m-d");
+
+                                                 if($key->fechaFin!=null  && $key->fechaFin < $hoy)
                                                 {
                                                     $fechaFin='<i style="color:#8e0015;margin-right:5px;" class="fa fa-flag"></i> '.$key->fechaFin.'';
                                                 }
@@ -249,19 +253,30 @@
                                             <tbody>
                                                 
                                                 <?php 
+                                                $usuario="";
                                                 $contador=0;
                                                     foreach ($user_top as $key ) {
+                                                        if($key->usuario=="Administrador")
+                                                            {
+                                                                $usuario="
+                                                                    <strong>
+                                                                      <i class='fa fa-user' style='padding-right:5px;'></i>Opinion App
+                                                                    </strong>
+                                                                 ";
+                                                            }
+                                                            else
+                                                            {
+                                                             $usuario="<a> <strong><i class='fa fa-user' style='padding-right:5px;'></i>".$key->usuario."
+                                                                    </strong></a>";   
+                                                            }
+
                                                         $contador++;
                                                         echo '<tr><td style="width: 20px;padding-top: 15px;">
                                                             '.$contador.'
                                                         </td>
                                                         <td>
                                                             <div class="text-left" style="font-size: 10px;">
-                                                                <a class=" " href="#" style="text-decoration: underline;">
-                                                                    <strong>
-                                                                      '.$key->usuario.'
-                                                                    </strong>
-                                                                </a>
+                                                                '.$usuario.'
                                                             </div>
                                                             <div class="text-left" style="font-size: 10px;padding-top: 5px;">
                                                                 <span>
@@ -282,16 +297,18 @@
             </div>
         </div>
 
+<!-- Ver opin detallado-->
+<form id="formulario_detalle" method="post" action="opins">
+    <input name="_token" type="hidden" value="<?php echo $mi_tokken;?>" id="my_token">
+    <input id="id_form" type="hidden" name="id_form">
+</form>
+
 <style type="text/css">
     .favoritoUser
     {
-        color: #c12600;         
+        color: #c12600; 
     }
-      .ocultar
-    {
-       display: none;      
-    }
-</style>>
+</style>
 <!-- /.content -->
 <!-- /.content-wrapper -->
 <?php //include('includes/footer.php');?>
@@ -309,6 +326,7 @@ baderaFecha=0;
 baderaVotos=0; 
 $(document).ready(function() { 
 filtrar("",bvotos,bfecha,bfiltro,bcategoria)
+validar_votados();
 }); 
 
 
@@ -384,9 +402,34 @@ function validar_favoritos()
 
                   $.each(data, function(i, datos) {
                     $("#votados_"+datos['idEncuesta']).addClass("favoritoUser");
-                    $("#"+datos['idEncuesta']).addClass("favoritoUser");
-                    $("#columna_"+datos['idEncuesta']).removeClass("ocultar");                            
+                    $("#"+datos['idEncuesta']).addClass("favoritoUser");                        
                   });
+            }
+               
+        })
+    } 
+
+function validar_votados() //Saber si el usuario voto un opin
+    {     
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });  
+        $.ajax({
+            url: 'validarvotado',
+            type: 'post', 
+            dataType:"json", 
+            success: function(data)  
+            {  
+                $.each(data, function(i, datos) {                    
+                    if(datos['idEncuesta']>0)
+                    {
+                         
+                        $("#opin_votado_"+datos['idEncuesta']).show();
+                        $("#opin_votado_lateral_"+datos['idEncuesta']).show();                           
+                    }
+                });
             }
                
         })
@@ -409,8 +452,19 @@ function validar_favoritos()
             success: function(data)  
             { 
              columna="";
-                $.each(data, function(i, datos) {  
-                    usuario="Administrador";
+            
+             
+                $.each(data, function(i, datos) { 
+                
+                 
+                 var d = new Date();
+                 var mes =d.getMonth();
+                 var dia =d.getDate();
+                 if(mes<10){mes=0+''+mes;}
+                 if(dia<10){dia=0+''+dia;}
+                 var strDate = d.getFullYear() + "-" + (mes) + "-" + (dia); 
+                    
+                    usuario="";
                     carpeta="0";
                     imagen="0.png";
                     seleccionUnica="";
@@ -419,14 +473,24 @@ function validar_favoritos()
                     baderaRoja='<i style="margin-right:5px;color:#8e0015;" class="fa fa-flag"></i>';
                         if(datos["login"]!=null)
                         {
-                            usuario=datos["login"];
+                           
+                            usuario='<a class="pull-right" href="'+datos["idUsuarioPropietario"]+'" style="text-decoration: none;margin-right:-15%;"> <i class="fa fa-user" style="padding-right:5px;"></i><strong> '+datos["login"]+' </strong> </a>';
+                        }
+                        else
+                        {
+                            usuario='<spam class="pull-right" style="text-decoration: none;margin-right:-15%;"> <i class="fa fa-user" style="padding-right:5px;"></i><strong> Opinion App </strong> </spam>';
                         }
                         if(datos["seleccionUnica"]==1)
                         {
-                            seleccionUnica='<i style="margin-left:10px;" class="fa  fa-check-square"></i>';
+                            seleccionUnica='<i id="opin_votado_'+datos["idEncuesta"]+'" style="margin-left:10px;display:none;" class="fa  fa-check-square"></i>';
                         }
-                        if(datos["fechaFin"]!=null)
+                        mostrar=1;
+                        if(datos["fechaFin"]!=null )
                         {
+                            if( (new Date(datos["fechaFin"]).getTime() < new Date(strDate).getTime()))
+                                {
+                                  mostrar=0;
+                                }
                            fechaFin=baderaRoja+datos["fechaFin"];
                         }
                                                             
@@ -437,17 +501,30 @@ function validar_favoritos()
                         carpeta="0";
                         imagen="0.png";
                         }
-                     columna=columna+'<tr class="ocultar" id="columna_'+datos["idEncuesta"]+'"> <td style="width: 30px;padding-left: 5px;"> <img class="img-circle" style="width:30px;" src="local/resources/views/uploads/encuestas/'+carpeta+'/'+imagen+'"> </td> <td> <div class="text-left" style="font-size: 12px;"> <strong> '+datos["textoPregunta"]+'</strong> </div> <div class="text-left" style="font-size: 12px;padding-top: 2px;"> <span> '+baderaVerde+datos["fechaCreacion"]+' '+seleccionUnica+' <span style="padding-left: 15px;margin-top"> <i id="'+datos["idEncuesta"]+'" class="fa fa-fw fa-heart"><span  style="margin-left:5px;color:#000;">'+datos["favorito"]+'</span></i> </span> <span style="padding-left: 20px;"> <i class="ion ion-stats-bars"><span style="margin-left:5px;">'+datos["numeroVotantes"]+'</span></i></span> <i style="margin-left:10px;"> <img src="local/resources/views/img/open.png" style="width:15px;"> </i> </span> <a class="pull-right" href="'+datos["idUsuarioPropietario"]+'" style="text-decoration: underline;"> <strong> '+usuario+' </strong> </a> <br/>'+fechaFin+'</div> </td> </tr>';    
+
+                    if(mostrar==1)
+                    {
+                          divimagen='<div  style="background: url(http://opinion-app.com/upload/fotos/encuestas/'+carpeta+'/'+imagen+') -50px -50px no-repeat;overflow: hidden;  background-repeat: no-repeat;background-position: 50%;border-radius: 10px;background-size: auto 40px; padding-left: 10px;"></div> ';
+
+                           columna=columna+'<tr> <td style="width: 30px;padding-left: 5px;">'+divimagen+'</td> <td> <div onClick="opin('+datos["idEncuesta"]+' )" style="width:85%;cursor:pointer;"><div class="text-left" style="font-size: 12px;"> <strong> '+datos["textoPregunta"]+'</strong> </div> <div class="text-left" style="font-size: 12px;padding-top: 2px;"> <span> '+baderaVerde+datos["fechaCreacion"]+' '+seleccionUnica+' <span style="padding-left: 15px;margin-top"> <i id="'+datos["idEncuesta"]+'" class="fa fa-fw fa-heart"><span  style="margin-left:5px;color:#000;">'+datos["favorito"]+'</span></i> </span> <span style="padding-left: 20px;"> <i class="ion ion-stats-bars"><span style="margin-left:5px;">'+datos["numeroVotantes"]+'</span></i></span> <i style="margin-left:10px;"> <img src="local/resources/views/img/open.png" style="width:15px;"> </i> </span> '+usuario+' <br/>'+fechaFin+'</div></div> </td> </tr>';  
+                    }  
                 });
                 $("#tabla_opins").html("");
                 $("#tabla_opins").html(columna);
                 validar_favoritos();
+                //validar_votados();
             }
                
         })
     }
-    
-</script> 
-    </body>
+    function opin(id)
+    {
+        $("#id_form").val(id);
+        $("#formulario_detalle").submit();
+    }
+</script>
+ 
+ 
+    </body >
 </html>
 

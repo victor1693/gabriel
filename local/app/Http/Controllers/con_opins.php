@@ -18,15 +18,16 @@ class con_opins extends Controller {
 
 	}
 
-	public function index()
+	public function index($id)
 	{
+		 
 		 //".session()->get('id')."
 		$vista="";
 		//Consulta para saber si el usuario ya ha votado el opin o no
 		$sql="SELECT count(t3.idUsuario) cantidad FROM PreguntaEncuesta t1
 		INNER JOIN RespuestaEncuesta t2 ON t1.idPreguntaEncuesta = t2.idPreguntaEncuesta
 		INNER JOIN SeleccionRespuestaEncuesta t3 ON t3.idRespuestaEncuesta = t2.idRespuestaEncuesta
-		WHERE t1.idEncuesta = ".$_POST['id_form']." and t3.idUsuario=".session()->get('id')."";
+		WHERE t1.idEncuesta = ".$id." and t3.idUsuario=".session()->get('id')."";
 
 		$votado=DB::select($sql);
 		
@@ -63,16 +64,16 @@ class con_opins extends Controller {
 		t2.idEncuesta = t1.idEncuesta 
 		LEFT JOIN FavoritoEncuesta t3 ON t3.idEncuesta = t1.idEncuesta and t3.idUsuario=".session()->get('id')."
 		LEFT JOIN Usuario t4 ON t4.idUsuario = t1.idUsuarioPropietario
-		WHERE t1.idEncuesta=".$_POST['id_form']."";
+		WHERE t1.idEncuesta=".$id."";
 
 		$datosuno=DB::select($sql);
 		$vista->infouno=$datosuno;
-		$vista->identificador=$_POST['id_form'];
+		$vista->identificador=$id;
 		//Consulta para  obtener las preguntas
 		$sql="SELECT  t2.idRespuestaEncuesta,t2.textoRespuesta,count(t3.idRespuestaEncuesta) as cantidad FROM PreguntaEncuesta t1
 		INNER JOIN RespuestaEncuesta t2 ON t1.idPreguntaEncuesta = t2.idPreguntaEncuesta
         LEFT JOIN SeleccionRespuestaEncuesta t3 ON t2.idRespuestaEncuesta =t3.idRespuestaEncuesta 
-		WHERE t1.idEncuesta = ".$_POST['id_form']."
+		WHERE t1.idEncuesta = ".$id."
         GROUP BY t2.textoRespuesta
         order by count(t2.idRespuestaEncuesta) desc";		
 		$preguntas=DB::select($sql);

@@ -8,7 +8,7 @@
         </div>
         <div class="pull-left info">
           <p><?php echo session()->get("nombre");?></p>
-          <a href="/user/#" ><i class="fa fa-circle text-success"></i> Online</a>
+          <a href="#" ><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
        
@@ -16,61 +16,61 @@
       <ul class="sidebar-menu" data-widget="tree"  >
              
         <li>
-          <a href="/user/inicio">
+          <a href="inicio">
             <i class="fa fa-search"></i> <span>Buscar Opin</span> 
           </a>
         </li> 
 
          <li>
-          <a href="/user/#">
+          <a href="#">
             <i class="fa fa-key"></i> <span>Opin Privados</span> 
           </a>
         </li> 
 
          <li>
-          <a href="/user/myopins">
+          <a href="myopins">
             <i class="fa fa-area-chart"></i> <span>My Opin</span> 
           </a>
         </li> 
 
          <li>
-          <a href="/user/favorites">
+          <a href="favorites">
             <i class="fa fa-heart"></i> <span>Favoritos</span> 
           </a>
         </li> 
 
          <li>
-          <a href="/user/#">
+          <a href="#">
             <i class="fa fa-thumbs-up"></i> <span>Opin Votatos</span> 
           </a>
         </li> 
 
          <li>
-          <a href="/user/#">
+          <a href="#">
             <i class="fa fa-plus"></i> <span>Crear Opin</span> 
           </a>
         </li> 
 
          <li class="treeview">
-          <a href="/user/#">
+          <a href="#">
             <i class="fa fa-cog"></i> <span>Settings</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu" style="display: none;">
-            <li><a href="/user/profile"><i class="fa fa-circle-o"></i>Perfil</a></li> 
-            <li><a href="/user/#"><i class="fa fa-circle-o"></i>Lenguaje</a></li> 
-            <li><a href="/user/#"><i class="fa fa-circle-o"></i>Notificaciones</a></li> 
-            <li><a href="/user/#"><i class="fa fa-circle-o"></i>Compartir</a></li> 
-            <li><a href="/user/#"><i class="fa fa-circle-o"></i>Cotáctanos</a></li> 
+            <li><a href="profile"><i class="fa fa-circle-o"></i>Perfil</a></li> 
+            <li><a href="#"><i class="fa fa-circle-o"></i>Lenguaje</a></li> 
+            <li><a href="#"><i class="fa fa-circle-o"></i>Notificaciones</a></li> 
+            <li><a href="#"><i class="fa fa-circle-o"></i>Compartir</a></li> 
+            <li><a href="#"><i class="fa fa-circle-o"></i>Cotáctanos</a></li> 
           </ul>
         </li>
 
       </ul>
     </section>
 
-    <!--<div>
+    <div>
        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <script>
           (adsbygoogle = window.adsbygoogle || []).push({
@@ -78,6 +78,6 @@
             enable_page_level_ads: true
           });
         </script>​
-    </div>-->			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>		<!-- Sapindex -->		<ins class="adsbygoogle"			 style="display:block"			 data-ad-client="ca-pub-9374260335278781"			 data-ad-slot="1445604355"			 data-ad-format="auto"></ins>		<script>		(adsbygoogle = window.adsbygoogle || []).push({});		</script>		
+    </div>
     <!-- /.sidebar -->
   </aside>

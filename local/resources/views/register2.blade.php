@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Registro</title> 
-  <?php include('local/resources/views/includes/referencias_top.html');?>
+  <?php include('local/resources/views/includes/referencias_top.php');?>
  
    <link href="local/resources/views/plugins/select2/select2.css" rel="stylesheet" /> 
  <script type="text/javascript" src="https://code.jquery.com/jquery-2.0.2.js"></script> 

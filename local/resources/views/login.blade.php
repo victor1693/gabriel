@@ -9,7 +9,7 @@ $mi_tokken=csrf_token();
                 <title>
                     OpinionApp
                 </title>
-                <?php include('local/resources/views/includes/referencias_top.html');?>
+                <?php include('local/resources/views/includes/referencias_top.php');?>
 
                 <meta name="csrf-token" content="<?php echo $mi_tokken;?>">
     
